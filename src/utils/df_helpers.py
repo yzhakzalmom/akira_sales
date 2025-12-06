@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Troca ponto por vírgula nas colunas float64 em um dataframe
-def replace_caractere_decimal(df: pd.DataFrame) -> pd.DataFrame:
+def replace_decimal_character(df: pd.DataFrame) -> pd.DataFrame:
 
     # Para cada coluna
     for column in df.columns:
@@ -16,7 +16,7 @@ def replace_caractere_decimal(df: pd.DataFrame) -> pd.DataFrame:
 
 
 # Une os dataframes de vendas em bronze/vendas
-def une_vendas():
+def sales_union():
     from pathlib import Path
 
     # Define diretório de vendas
