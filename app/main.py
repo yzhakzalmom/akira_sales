@@ -11,9 +11,13 @@ header.render_header()
 # Render sales uploader
 sales_uploader.render_sales_uploader()
 
+st.divider()
+
 # Lógica para inserir custos com produtos
 st.title("Custos")
 st.write("Inserir custos")
+
+st.divider()
 
 # Lógica para inserir outros custos
 st.title("Outros Custos")
