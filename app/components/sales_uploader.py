@@ -23,7 +23,8 @@ def render_sales_uploader() -> None:
     import streamlit as st
     from pathlib import Path
     from utils.helpers import get_data_path
-    from services.read_data import get_sales_uploader_text, save_sales_sheet
+    from services.read_data import get_sales_uploader_text
+    from services.save_data import save_sales_sheet
 
     # Render section header and text
     st.header('Planilha de Vendas')
