@@ -1,5 +1,5 @@
 # Checks if the sales sheet pattern is correct and return sheet preview
-def check_sales_sheet(container, sales_sheet) -> None:
+def check_sales_sheet_format(container, sales_sheet) -> None:
     import pandas as pd
 
     # Read sales sheet into a dataframe
@@ -17,9 +17,9 @@ def check_sales_sheet(container, sales_sheet) -> None:
             headers_idx += idx + 1
             break
 
-        # If this header was not found, the file has a wrong pattern
-        else:
-            raise Exception('Arquivo não está no formato padrão da planilha de vendas')
+    # If this header was not found, the file has a wrong pattern
+    if headers_idx == 0:
+        raise Exception('Arquivo não está no formato padrão da planilha de vendas')
 
     # Create current columns list based on the headers
     current_columns = sales_df.iloc[headers_idx].tolist()
