@@ -25,18 +25,18 @@ def get_asset_file_path(asset_type: str, file_name: str) -> str:
 def get_months() -> dict:
 
     months = {
-    "Janeiro": 1,
-    "Fevereiro": 2,
-    "Março": 3,
-    "Abril": 4,
-    "Maio": 5,
-    "Junho": 6,
-    "Julho": 7,
-    "Agosto": 8,
-    "Setembro": 9,
-    "Outubro": 10,
-    "Novembro": 11,
-    "Dezembro": 12
+    "Janeiro": '01',
+    "Fevereiro": '02',
+    "Março": '03',
+    "Abril": '04',
+    "Maio": '05',
+    "Junho": '06',
+    "Julho": '07',
+    "Agosto": '08',
+    "Setembro": '09',
+    "Outubro": '10',
+    "Novembro": '11',
+    "Dezembro": '12'
     }
 
     return months
@@ -52,7 +52,7 @@ def get_years() -> list[int]:
     today_year = datetime.datetime.now().year
 
     # Update years list with years until today
-    years_list += [int(year + 1) for year in range(years_list[0], today_year)]
+    years_list += [str(year + 1) for year in range(years_list[0], today_year)]
 
     return years_list
 
