@@ -22,6 +22,7 @@ def render_sales_uploader() -> None:
     import streamlit as st
     from services.read_data import get_sales_uploader_text
     from services.save_data import save_sales_sheet
+    from services.check_data import check_sales_sheet
 
     # Create sales uploader container
     sales_up_container = st.container()
@@ -41,10 +42,20 @@ def render_sales_uploader() -> None:
 
     # Render button only if there is an uploaded file
     if sales_sheet:
+
+        try: # to check and render sales sheet preview
+            sales_preview_df = check_sales_sheet(sales_up_container, sales_sheet)
+            sales_up_container.dataframe(sales_preview_df)
+
+        except Exception as e:
+
+            # Render error message and description
+            sales_up_container.error('Erro no arquivo. Tem certeza que escolheu o arquivo certo?', icon='❌')
+            sales_up_container.write(e)
+
         # On button click
         if sales_up_container.button('Enviar arquivo', width='stretch'):
 
-            
             try: # to save sales sheet
                 save_sales_sheet(sales_sheet, chosen_month, chosen_year)
 
