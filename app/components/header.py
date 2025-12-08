@@ -10,8 +10,11 @@ def render_header() -> None:
     # Load logo as base64
     logo_base64 = image_to_base64(logo_path)
 
+    # Create header container
+    header_container = st.container()
+
     # Render logo and title
-    st.markdown(
+    header_container.markdown(
     f"""
     <div style='text-align: center;'>
         <img src='data:image/png;base64,{logo_base64}' width='100'>
