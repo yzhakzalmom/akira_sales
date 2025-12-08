@@ -21,14 +21,15 @@ def render_date_input() -> tuple:
 
 def render_sales_uploader() -> None:
     import streamlit as st
-    from pathlib import Path
-    from utils.helpers import get_data_path
     from services.read_data import get_sales_uploader_text
     from services.save_data import save_sales_sheet
 
+    # Create sales uploader container
+    sales_up_container = st.container()
+
     # Render section header and text
-    st.header('Planilha de Vendas')
-    st.markdown(get_sales_uploader_text())
+    sales_up_container.header('Planilha de Vendas 📈')
+    sales_up_container.markdown(get_sales_uploader_text())
 
     # Get chosen month and year and render date input
     chosen_month, chosen_year = render_date_input()    
@@ -42,16 +43,16 @@ def render_sales_uploader() -> None:
     # Render button only if there is an uploaded file
     if sales_sheet:
         # On button click
-        if st.button('Enviar arquivo', width='stretch'):
+        if sales_up_container.button('Enviar arquivo', width='stretch'):
 
             
             try: # to save sales sheet
                 save_sales_sheet(sales_sheet)
 
                 # Render success message
-                st.success('Upload bem sucedido', icon='✅')
+                sales_up_container.success('Upload bem sucedido', icon='✅')
 
             except Exception as e:
                 # Render error message and description
-                st.error('Erro no upload', icon='❌')
-                st.write(e)
+                sales_up_container.error('Erro no upload', icon='❌')
+                sales_up_container.write(e)
