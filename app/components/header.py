@@ -1,11 +1,4 @@
-from utils.helpers import get_asset_file_path
-
-# Return image as base64
-def image_to_base64(image_path):
-    import base64
-
-    with open(image_path, "rb") as img_file:
-        return base64.b64encode(img_file.read()).decode()
+from utils.helpers import get_asset_file_path, image_to_base64
 
 # Render header with logo and title
 def render_header() -> None:

@@ -55,3 +55,10 @@ def get_years() -> list[int]:
     years_list += [int(year + 1) for year in range(years_list[0], today_year)]
 
     return years_list
+
+# Return image as base64
+def image_to_base64(image_path):
+    import base64
+
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
