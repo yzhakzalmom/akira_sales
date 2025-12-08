@@ -1,7 +1,6 @@
-from utils.helpers import get_asset_file_path, image_to_base64
-
 # Render header with logo and title
 def render_header() -> None:
+    from utils.helpers import get_asset_file_path, image_to_base64
     import streamlit as st
 
     # Find logo path
