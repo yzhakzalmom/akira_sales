@@ -18,14 +18,42 @@ def render_date_input(container) -> tuple:
 
     return months[chosen_month], chosen_year
 
-def render_sales_uploader(main_container) -> None:
-    import streamlit as st
-    from services.read_data import get_sales_uploader_text
-    from services.save_data import save_sales_sheet
+def render_sheet_preview(container, sales_sheet):
     from services.check_data import check_sales_sheet_format
 
+    try: # to check and render sales sheet preview
+        sales_preview_df = check_sales_sheet_format(container, sales_sheet)
+        container.subheader('Prévia do arquivo')
+        container.dataframe(sales_preview_df)
+
+    except Exception as e:
+
+        # Render error message and description
+        container.error('Erro no arquivo. Tem certeza que escolheu o arquivo certo?', icon='❌')
+        container.write(e)
+
+def render_uploader_button(container, sales_sheet, month, year):
+    from services.save_data import save_sales_sheet
+
+    # On button click
+    if container.button('Enviar arquivo', width='stretch'):
+
+        try: # to save sales sheet
+            save_sales_sheet(sales_sheet, month, year)
+
+            # Render success message
+            container.success('Upload bem sucedido', icon='✅')
+
+        except Exception as e:
+            # Render error message and description
+            container.error('Erro no upload', icon='❌')
+            container.write(e)
+
+def render_sales_uploader(container) -> None:
+    from services.read_data import get_sales_uploader_text
+
     # Create sales uploader container
-    sales_up_container = main_container.container()
+    sales_up_container = container.container()
 
     # Render section header and text
     sales_up_container.header('Planilha de Vendas 📈')
@@ -43,27 +71,6 @@ def render_sales_uploader(main_container) -> None:
     # Render button only if there is an uploaded file
     if sales_sheet:
 
-        try: # to check and render sales sheet preview
-            sales_preview_df = check_sales_sheet_format(sales_up_container, sales_sheet)
-            sales_up_container.subheader('Prévia do arquivo')
-            sales_up_container.dataframe(sales_preview_df)
+        render_sheet_preview(sales_up_container, sales_sheet)
 
-        except Exception as e:
-
-            # Render error message and description
-            sales_up_container.error('Erro no arquivo. Tem certeza que escolheu o arquivo certo?', icon='❌')
-            sales_up_container.write(e)
-
-        # On button click
-        if sales_up_container.button('Enviar arquivo', width='stretch'):
-
-            try: # to save sales sheet
-                save_sales_sheet(sales_sheet, chosen_month, chosen_year)
-
-                # Render success message
-                sales_up_container.success('Upload bem sucedido', icon='✅')
-
-            except Exception as e:
-                # Render error message and description
-                sales_up_container.error('Erro no upload', icon='❌')
-                sales_up_container.write(e)
+        render_uploader_button(sales_up_container, sales_sheet, chosen_month, chosen_year)

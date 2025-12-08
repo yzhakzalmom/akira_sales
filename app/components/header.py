@@ -1,5 +1,5 @@
 # Render header with logo and title
-def render_header(main_container) -> None:
+def render_header(container) -> None:
     from utils.helpers import get_asset_file_path, image_to_base64
     import streamlit as st
 
@@ -10,7 +10,7 @@ def render_header(main_container) -> None:
     logo_base64 = image_to_base64(logo_path)
 
     # Create header container
-    header_container = main_container.container()
+    header_container = container.container()
 
     # Render logo and title
     header_container.markdown(
