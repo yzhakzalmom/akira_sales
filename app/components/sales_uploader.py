@@ -18,14 +18,14 @@ def render_date_input(container) -> tuple:
 
     return months[chosen_month], chosen_year
 
-def render_sales_uploader() -> None:
+def render_sales_uploader(main_container) -> None:
     import streamlit as st
     from services.read_data import get_sales_uploader_text
     from services.save_data import save_sales_sheet
     from services.check_data import check_sales_sheet_format
 
     # Create sales uploader container
-    sales_up_container = st.container()
+    sales_up_container = main_container.container()
 
     # Render section header and text
     sales_up_container.header('Planilha de Vendas 📈')
