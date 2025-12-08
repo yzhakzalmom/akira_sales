@@ -5,20 +5,26 @@ from components import header, sales_uploader
 # Page settings
 st.set_page_config(page_title="Akira ~ Uploads", page_icon="🥋", layout="wide")
 
-# Render header
-header.render_header()
+# Create main page columns
+_, main_col, __ = st.columns([1, 4, 1])
 
-# Render sales uploader
-sales_uploader.render_sales_uploader()
+# Render within the column
+with main_col:
+    
+    # Render header
+    header.render_header()
 
-st.divider()
+    # Render sales uploader
+    sales_uploader.render_sales_uploader()
 
-# Lógica para inserir custos com produtos
-st.title("Custos")
-st.write("Inserir custos")
+    st.divider()
 
-st.divider()
+    # Lógica para inserir custos com produtos
+    st.title("Custos")
+    st.write("Inserir custos")
 
-# Lógica para inserir outros custos
-st.title("Outros Custos")
-st.write("Inserir outros custos")
+    st.divider()
+
+    # Lógica para inserir outros custos
+    st.title("Outros Custos")
+    st.write("Inserir outros custos")
