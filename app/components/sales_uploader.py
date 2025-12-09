@@ -19,10 +19,12 @@ def render_uploader_button(container, sales_sheet, month: str, year: str):
     if container.button('Enviar arquivo', width='stretch'):
 
         try: # to save sales sheet
-            save_sales_sheet(sales_sheet, month, year)
+
+            # Get save message
+            message = save_sales_sheet(sales_sheet, month, year)
 
             # Render success message
-            container.success('Upload bem sucedido', icon='✅')
+            container.success(message, icon='✅')
 
         except Exception as e:
             # Render error message and description

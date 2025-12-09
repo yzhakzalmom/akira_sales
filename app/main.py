@@ -25,10 +25,10 @@ with main_col:
     sales_uploader.render_sales_uploader(central_container)
     central_container.divider()
 
-    # Lógica para inserir custos com produtos
+    # Render products costs uploader
     costs_uploader.render_costs_uploader(central_container, 'products_costs', 'Custos com produtos 🥋')
     central_container.divider()
 
-    # Lógica para inserir outros custos
-    central_container.title("Outros Custos")
-    central_container.write("Inserir outros custos")
+    # Render other costs uploader
+    costs_uploader.render_costs_uploader(central_container, 'other_costs', 'Outros Custos 📊')
+    

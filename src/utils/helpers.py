@@ -62,3 +62,18 @@ def image_to_base64(image_path):
 
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
+
+# Generate message to be return when a file is saved
+def generate_save_return_message(file_path: str, month: str, year: str, save_type: str) -> str:
+    from services.check_data import check_data_file_exists
+
+    # Create file already exist message
+    file_exists_message = f'Parece que essas informações já existiam. Substituindo arquivo de {save_type} de {month}/{year}. '
+
+    # Create return message
+    return_message = 'Upload bem sucedido!'
+
+    # Update return message if file already exists
+    return_message = (file_exists_message + return_message) if check_data_file_exists(file_path) else return_message
+
+    return return_message

@@ -34,3 +34,14 @@ def check_sales_sheet_format(container, sales_sheet) -> None:
     preview_df = sales_df.iloc[5:15]
 
     return preview_df
+
+# Check if a file in a data subfolder exists
+def check_data_file_exists(file_subpath: str):
+    from pathlib import Path
+    from utils.helpers import get_data_path
+
+    # Create file path
+    file_path = Path(get_data_path() / file_subpath)
+
+    # Return the boolean result of exists and is file
+    return (file_path.exists() and file_path.is_file())
