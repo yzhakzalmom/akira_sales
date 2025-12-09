@@ -26,7 +26,7 @@ with main_col:
     central_container.divider()
 
     # Lógica para inserir custos com produtos
-    costs_uploader.render_costs_uploader(central_container, 'products_costs')
+    costs_uploader.render_costs_uploader(central_container, 'products_costs', 'Custos com produtos 🥋')
     central_container.divider()
 
     # Lógica para inserir outros custos

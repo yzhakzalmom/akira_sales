@@ -12,7 +12,7 @@ def render_sheet_preview(container, sales_sheet):
         container.error('Erro no arquivo. Tem certeza que escolheu o arquivo certo?', icon='❌')
         container.write(e)
 
-def render_uploader_button(container, sales_sheet, month, year):
+def render_uploader_button(container, sales_sheet, month: str, year: str):
     from services.save_data import save_sales_sheet
 
     # On button click
