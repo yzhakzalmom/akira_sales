@@ -1,23 +1,3 @@
-def render_date_input(container) -> tuple:
-    from utils.helpers import get_months, get_years
-
-    # Create date input using columns
-    month_col, year_col, _ = container.columns([1, 1, 2], gap='medium')
-
-    # Render month column
-    with month_col:
-        # Render month selectbox
-        months = get_months()
-        chosen_month = container.selectbox("Mês do arquivo", list(months.keys()))
-
-    # Render year column
-    with year_col:
-        # Rendem year selectbox
-        years_list = get_years()
-        chosen_year = container.selectbox("Ano do arquivo", years_list)
-
-    return months[chosen_month], chosen_year
-
 def render_sheet_preview(container, sales_sheet):
     from services.check_data import check_sales_sheet_format
 
@@ -51,6 +31,7 @@ def render_uploader_button(container, sales_sheet, month, year):
 
 def render_sales_uploader(container) -> None:
     from services.read_data import get_text
+    from .general import render_date_input
 
     # Create sales uploader container
     sales_up_container = container.container()
@@ -60,7 +41,7 @@ def render_sales_uploader(container) -> None:
     sales_up_container.markdown(get_text('sales_uploader'))
 
     # Get chosen month and year and render date input
-    chosen_month, chosen_year = render_date_input(sales_up_container)    
+    month, year = render_date_input(sales_up_container, 'sales_uploader')    
 
     # Render upload section
     sales_sheet = sales_up_container.file_uploader(
@@ -73,4 +54,4 @@ def render_sales_uploader(container) -> None:
 
         render_sheet_preview(sales_up_container, sales_sheet)
 
-        render_uploader_button(sales_up_container, sales_sheet, chosen_month, chosen_year)
+        render_uploader_button(sales_up_container, sales_sheet, month, year)
