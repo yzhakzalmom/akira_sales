@@ -10,7 +10,7 @@ def render_costs_inputs(container, cost_type: str):
     empty_costs_df = get_dataframe(f'{cost_type}_placeholder')
 
     # Render final costs editor
-    final_costs_df = container.data_editor(empty_costs_df, num_rows='dynamic', key=cost_type)
+    final_costs_df = container.data_editor(empty_costs_df, num_rows='dynamic', key=cost_type, disabled=['Mês'])
 
     # TODO: finalizar salvamento do df
 
@@ -18,6 +18,7 @@ def render_costs_inputs(container, cost_type: str):
 
 def render_costs_uploader(container, cost_type: str):
     from services.read_data import get_text
+    from .general import render_date_input
 
     # Create costs input container
     costs_container = container.container()
