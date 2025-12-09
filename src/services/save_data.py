@@ -1,4 +1,6 @@
-def save_sales_sheet(sales_sheet, file_month: str, file_year: str) -> None:
+from __future__ import annotations
+
+def save_sales_sheet(sales_sheet, file_month: str, file_year: str):
     from utils.helpers import get_data_path
 
     # Create file name

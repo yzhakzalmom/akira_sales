@@ -1,6 +1,6 @@
 import streamlit as st
 from pathlib import Path
-from components import header, sales_uploader
+from components import header, sales_uploader, costs_uploader
 
 # Page settings
 st.set_page_config(page_title="Akira ~ Uploads", page_icon="🥋", layout="wide")
@@ -26,8 +26,7 @@ with main_col:
     central_container.divider()
 
     # Lógica para inserir custos com produtos
-    central_container.title("Custos")
-    central_container.write("Inserir custos")
+    costs_uploader.render_costs_uploader(central_container, 'products_costs')
     central_container.divider()
 
     # Lógica para inserir outros custos

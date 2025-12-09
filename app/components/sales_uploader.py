@@ -50,14 +50,14 @@ def render_uploader_button(container, sales_sheet, month, year):
             container.write(e)
 
 def render_sales_uploader(container) -> None:
-    from services.read_data import get_sales_uploader_text
+    from services.read_data import get_text
 
     # Create sales uploader container
     sales_up_container = container.container()
 
     # Render section header and text
     sales_up_container.header('Planilha de Vendas 📈')
-    sales_up_container.markdown(get_sales_uploader_text())
+    sales_up_container.markdown(get_text('sales_uploader'))
 
     # Get chosen month and year and render date input
     chosen_month, chosen_year = render_date_input(sales_up_container)    
