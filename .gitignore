@@ -25,7 +25,7 @@ Thumbs.db
 # *.xlsx
 # *.xls
 # *.csv
-# data/
+data/
 
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints/
