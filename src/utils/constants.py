@@ -26,6 +26,8 @@ SALES_FILE_EXTENSION = ".xlsx"
 COSTS_FILE_EXTENSION = ".parquet"
 TEXT_FILE_EXTENSION = ".md"
 CSV_FILE_EXTENSION = ".csv"
+CSV_SEP = ';'
+PLACEHOLDER_SUFIX = '_placeholder'
 
 # ============================================================================
 # DATAFRAME COLUMN NAMES
@@ -39,7 +41,9 @@ COL_CUSTO = "Custo"
 # SALES SHEET VALIDATION
 # ============================================================================
 # Header that identifies the start of sales data
-SALES_SHEET_HEADER = "Vendas"
+SALES_SHEET_FIRST_HEADER = "Vendas"
+# Index indicating header was not found
+SALES_SHEET_HEADER_START_INDEX = 0
 # Index indicating header was not found
 SALES_SHEET_HEADER_NOT_FOUND_INDEX = 0
 # Row range for preview display (5:15 means rows 5 to 14, inclusive)
@@ -47,11 +51,35 @@ SALES_SHEET_PREVIEW_START_ROW = 5
 SALES_SHEET_PREVIEW_END_ROW = 15
 
 # ============================================================================
-# ASSET DIRECTORY NAMES
+# ASSET DIRECTORY AND FILE NAMES
 # ============================================================================
 ASSET_TYPE_TEXTS = "texts"
 ASSET_TYPE_DATAFRAMES = "dataframes"
 ASSET_TYPE_ICONS = "icons"
+
+SALES_UPLOADER_TEXT_FILE_NAME = 'sales_uploader'
+WHITE_LOGO_FILE_NAME = 'white_logo.png'
+BLACK_LOGO_FILE_NAME = 'black_logo.png'
+
+# ============================================================================
+# STREAMLIT TITLES, HEADERS AND CONFIG
+# ============================================================================
+MAIN_PAGE_TITLE = 'Akira ~ Uploads'
+MAIN_PAGE_LAYOUT = 'wide'
+MAIN_PAGE_HEADER = 'Uploads de Arquivos'
+
+SALES_UPLOADER_HEADER = 'Planilha de Vendas 📈'
+SALES_PREVIEW_SUBHEADER = 'Prévia do arquivo'
+
+DATE_INPUT_MONTH_LABEL = 'Mês do arquivo'
+DATE_INPUT_YEAR_LABEL = 'Ano do arquivo'
+
+
+MAIN_PAGE_COLUMN_LAYOUT = [1, 4, 1]
+DATE_INPUT_COLUMN_LAYOUT = [1, 1, 2]
+DATE_INPUT_COLUMN_GAP = 'medium'
+COMPONENTS_WIDTH = 'stretch'
+DATA_EDITOR_NUM_ROWS = 'dynamic'
 
 # ============================================================================
 # UI MESSAGES (Portuguese)
@@ -62,6 +90,7 @@ MSG_FILE_ERROR = "Erro no arquivo. Tem certeza que escolheu o arquivo certo?"
 MSG_FILL_COSTS = "Preencha com seus custos"
 MSG_SEND_INFO = "Enviar informações"
 MSG_SEND_FILE = "Enviar arquivo"
+MSG_SALES_SHEET_UPLOAD = 'Envie planilha de vendas'
 MSG_SALES_SHEET_FORMAT_ERROR = "Arquivo não está no formato padrão da planilha de vendas"
 
 # Message template for file replacement
@@ -81,6 +110,7 @@ SAVE_TYPE_CUSTOS = "custos"
 # ============================================================================
 ICON_SUCCESS = "✅"
 ICON_ERROR = "❌"
+ICON_MAIN_PAGE = '🥋'
 
 # ============================================================================
 # UI COMPONENT KEYS

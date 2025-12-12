@@ -1,5 +1,6 @@
 import pandas as pd
 from services.ADLSClient import ADLSClient
+from utils.constants import *
 
 # Checks if the sales sheet pattern is correct and return sheet preview
 def check_sales_sheet_format(sales_sheet) -> None:
@@ -8,20 +9,20 @@ def check_sales_sheet_format(sales_sheet) -> None:
     sales_df = pd.read_excel(sales_sheet)
 
     # Variable to hold headers index. It will be incresed below
-    headers_idx = 0
+    headers_idx = SALES_SHEET_HEADER_START_INDEX
 
     # Loop over the rows to find headers row
     for idx, row in sales_df.iterrows():
 
         # Search for 'Vendas', sheet's first header
-        if row[sales_df.columns[0]] == 'Vendas':
+        if row[sales_df.columns[0]] == SALES_SHEET_FIRST_HEADER:
             # Update header index with headers row index
             headers_idx += idx + 1
             break
 
     # If this header was not found, the file has a wrong pattern
-    if headers_idx == 0:
-        raise Exception('Arquivo não está no formato padrão da planilha de vendas')
+    if headers_idx == SALES_SHEET_HEADER_NOT_FOUND_INDEX:
+        raise Exception(MSG_SALES_SHEET_FORMAT_ERROR)
 
     # Create current columns list based on the headers
     current_columns = sales_df.iloc[headers_idx].tolist()
