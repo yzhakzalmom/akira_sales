@@ -21,6 +21,19 @@ def get_asset_file_path(asset_type: str, file_name: str) -> str:
 
     return asset_file_path
 
+# Load environment variables from .env file in project root
+def load_env_file():
+    from dotenv import load_dotenv
+    from pathlib import Path
+
+    # Get path to .env file in project root
+    env_path = get_akira_path() / '.env'
+    
+    # Load .env file if it exists
+    load_dotenv(dotenv_path=env_path)
+    
+    return env_path
+
 # Return dict in the shape {month_name: month_number}
 def get_months() -> dict:
 

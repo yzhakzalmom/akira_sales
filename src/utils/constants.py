@@ -9,12 +9,13 @@ maintainable, testable, and self-documenting.
 # ============================================================================
 # DATA LAYER PATHS
 # ============================================================================
-DATA_LAYER_BRONZE = "bronze"
-DATA_LAYER_SILVER = "silver"
-DATA_LAYER_GOLD = "gold"
+ADLS_LAYER_BRONZE = "bronze"
+ADLS_LAYER_SILVER = "silver"
+ADLS_LAYER_GOLD = "gold"
 
-DATA_CATEGORY_SALES = "sales"
-DATA_CATEGORY_COSTS = "costs"
+ADLS_CATEGORY_SALES = "sales"
+ADLS_CATEGORY_PRODUCTS_COSTS = "products_costs"
+ADLS_CATEGORY_OTHER_COSTS = "other_costs"
 
 # ============================================================================
 # FILE PATTERNS AND NAMING
