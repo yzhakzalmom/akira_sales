@@ -2,7 +2,7 @@ def render_sheet_preview(container, sales_sheet):
     from services.check_data import check_sales_sheet_format
 
     try: # to check and render sales sheet preview
-        sales_preview_df = check_sales_sheet_format(container, sales_sheet)
+        sales_preview_df = check_sales_sheet_format(sales_sheet)
         container.subheader('Prévia do arquivo')
         container.dataframe(sales_preview_df)
 

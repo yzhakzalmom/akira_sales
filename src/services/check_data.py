@@ -1,6 +1,8 @@
+import pandas as pd
+from services.ADLSClient import ADLSClient
+
 # Checks if the sales sheet pattern is correct and return sheet preview
-def check_sales_sheet_format(container, sales_sheet) -> None:
-    import pandas as pd
+def check_sales_sheet_format(sales_sheet) -> None:
 
     # Read sales sheet into a dataframe
     sales_df = pd.read_excel(sales_sheet)
@@ -34,14 +36,13 @@ def check_sales_sheet_format(container, sales_sheet) -> None:
     preview_df = sales_df.iloc[5:15]
 
     return preview_df
+    
 
 # Check if a file in a data subfolder exists
-def check_data_file_exists(file_subpath: str):
-    from pathlib import Path
-    from utils.helpers import get_data_path
+def check_data_folder_exists(folder_path: str):
 
-    # Create file path
-    file_path = Path(get_data_path() / file_subpath)
+    # Create ADLS connection object
+    adls_client = ADLSClient()
 
     # Return the boolean result of exists and is file
-    return (file_path.exists() and file_path.is_file())
+    return (folder_path in adls_client.list())

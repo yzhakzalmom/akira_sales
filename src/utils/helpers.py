@@ -1,21 +1,15 @@
-def get_akira_path():
-    from pathlib import Path
+from pathlib import Path
+from dotenv import load_dotenv
+import datetime
+import base64
 
+def get_akira_path():
     return Path(__file__).parent.parent.parent
 
-def get_data_path():
-    from pathlib import Path
-
-    return get_akira_path() / 'data'
-
 def get_app_path():
-    from pathlib import Path
-
     return get_akira_path() / 'app'
 
 def get_asset_file_path(asset_type: str, file_name: str) -> str:
-    from pathlib import Path
-
     # Build asset file path
     asset_file_path = get_app_path() / 'assets' / asset_type / file_name
 
@@ -23,9 +17,6 @@ def get_asset_file_path(asset_type: str, file_name: str) -> str:
 
 # Load environment variables from .env file in project root
 def load_env_file():
-    from dotenv import load_dotenv
-    from pathlib import Path
-
     # Get path to .env file in project root
     env_path = get_akira_path() / '.env'
     
@@ -56,8 +47,6 @@ def get_months() -> dict:
 
 # Return list containing every year since 2025
 def get_years() -> list[int]:
-    import datetime
-
     # Create year list containt 2025
     years_list = [2025]
 
@@ -71,22 +60,5 @@ def get_years() -> list[int]:
 
 # Return image as base64
 def image_to_base64(image_path):
-    import base64
-
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
-
-# Generate message to be return when a file is saved
-def generate_save_return_message(file_path: str, month: str, year: str, save_type: str) -> str:
-    from services.check_data import check_data_file_exists
-
-    # Create file already exist message
-    file_exists_message = f'Parece que essas informações já existiam. Substituindo arquivo de {save_type} de {month}/{year}. '
-
-    # Create return message
-    return_message = 'Upload bem sucedido!'
-
-    # Update return message if file already exists
-    return_message = (file_exists_message + return_message) if check_data_file_exists(file_path) else return_message
-
-    return return_message
