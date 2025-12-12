@@ -1,9 +1,10 @@
 import streamlit as st
 from pathlib import Path
 from components import header, sales_uploader, costs_uploader
+from utils.constants import *
 
 # Page settings
-st.set_page_config(page_title="Akira ~ Uploads", page_icon="🥋", layout="wide")
+st.set_page_config(page_title=MAIN_PAGE_TITLE, page_icon=ICON_MAIN_PAGE, layout=MAIN_PAGE_LAYOUT)
 
 # Create main page container
 main_container = st.container()
@@ -13,7 +14,7 @@ header.render_header(main_container)
 main_container.divider()
 
 # Create main page columns
-_, main_col, __ = main_container.columns([1, 4, 1])
+_, main_col, __ = main_container.columns(MAIN_PAGE_COLUMN_LAYOUT)
 
 # Create central container
 central_container = main_col.container()
