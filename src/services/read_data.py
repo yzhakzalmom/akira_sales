@@ -4,7 +4,7 @@ import pandas as pd
 from utils.constants import *
 from utils.helpers import get_asset_file_path
 
-def get_text(text_file_name: str) -> str:
+def get_asset_text(text_file_name: str) -> str:
     
     # Find text path
     text_path = get_asset_file_path(ASSET_TYPE_TEXTS, f'{text_file_name}{TEXT_FILE_EXTENSION}')
@@ -15,7 +15,7 @@ def get_text(text_file_name: str) -> str:
 
     return text
 
-def get_dataframe(df_name: str) -> pd.DataFrame:
+def get_asset_dataframe(df_name: str) -> pd.DataFrame:
 
     # Find df path
     df_path = get_asset_file_path(ASSET_TYPE_DATAFRAMES, f'{df_name}{CSV_FILE_EXTENSION}')

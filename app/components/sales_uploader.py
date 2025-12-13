@@ -1,7 +1,7 @@
 from .general import render_date_input
 from services.check_data import check_sales_sheet_format
-from services.save_data import save_sales_sheet
-from services.read_data import get_text
+from services.save_data import save_uploaded_sheet
+from services.read_data import get_asset_text
 from utils.constants import *
 
 def render_sheet_preview(container, sales_sheet):
@@ -25,7 +25,7 @@ def render_uploader_button(container, sales_sheet, month: str, year: str):
         try: # to save sales sheet
 
             # Get save message
-            message = save_sales_sheet(sales_sheet, month, year)
+            message = save_uploaded_sheet(sales_sheet, month, year)
 
             # Render success message
             container.success(message, icon=ICON_SUCCESS)
@@ -42,7 +42,7 @@ def render_sales_uploader(container) -> None:
 
     # Render section header and text
     sales_up_container.header(SALES_UPLOADER_HEADER)
-    sales_up_container.markdown(get_text(SALES_UPLOADER_TEXT_FILE_NAME))
+    sales_up_container.markdown(get_asset_text(SALES_UPLOADER_TEXT_FILE_NAME))
 
     # Get chosen month and year and render date input
     month, year = render_date_input(sales_up_container, SALES_UPLOADER_TEXT_FILE_NAME)    

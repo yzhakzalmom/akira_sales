@@ -34,7 +34,7 @@ def check_sales_sheet_format(sales_sheet) -> None:
     sales_df.columns = new_columns
 
     # Create preview dataframe that will be rendered
-    preview_df = sales_df.iloc[5:15]
+    preview_df = sales_df.iloc[SALES_SHEET_PREVIEW_START_ROW:SALES_SHEET_PREVIEW_END_ROW]
 
     return preview_df
     

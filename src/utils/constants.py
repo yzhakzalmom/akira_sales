@@ -22,6 +22,10 @@ ADLS_CATEGORY_OTHER_COSTS = "other_costs"
 # ============================================================================
 SALES_FILE_PREFIX = "sales_"
 COSTS_FILE_PREFIX = "costs_"
+RAW_FILE_PREFIX = 'raw_'
+TREATED_FILE_PREFIX = 'treated_'
+PRESENTATION_FILE_PREFIX = 'presentation_'
+
 SALES_FILE_EXTENSION = ".xlsx"
 COSTS_FILE_EXTENSION = ".parquet"
 TEXT_FILE_EXTENSION = ".md"
@@ -49,6 +53,8 @@ SALES_SHEET_HEADER_NOT_FOUND_INDEX = 0
 # Row range for preview display (5:15 means rows 5 to 14, inclusive)
 SALES_SHEET_PREVIEW_START_ROW = 5
 SALES_SHEET_PREVIEW_END_ROW = 15
+# Sales sheet cleaning variables
+SALES_SHEET_ROWS_DELETE_RANGE = range(4, 0, -1)
 
 # ============================================================================
 # ASSET DIRECTORY AND FILE NAMES

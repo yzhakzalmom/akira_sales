@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .general import render_date_input
-from services.save_data import save_costs_df
-from services.read_data import get_dataframe, get_text
+from services.save_data import save_uploaded_df
+from services.read_data import get_asset_dataframe, get_asset_text
 from utils.constants import *
 
 def render_uploader_button(container, costs_df: pd.DataFrame, cost_type: str, month: str, year: str):
@@ -12,7 +12,7 @@ def render_uploader_button(container, costs_df: pd.DataFrame, cost_type: str, mo
         try: # to save costs dataframe
 
             # Get save message
-            message = save_costs_df(costs_df, cost_type, month, year)
+            message = save_uploaded_df(costs_df, cost_type, month, year)
 
             # Render success message
             container.success(message, icon=ICON_SUCCESS)
@@ -26,7 +26,7 @@ def render_uploader_button(container, costs_df: pd.DataFrame, cost_type: str, mo
 def render_costs_inputs(container, cost_type: str):
 
     # Create empty dataframetobe edited
-    empty_costs_df = get_dataframe(f'{cost_type}{PLACEHOLDER_SUFIX}')
+    empty_costs_df = get_asset_dataframe(f'{cost_type}{PLACEHOLDER_SUFIX}')
 
     # Cast 'Descrição' to string
     empty_costs_df[COL_DESCRICAO] = empty_costs_df[COL_DESCRICAO].astype(str)
@@ -43,7 +43,7 @@ def render_costs_uploader(container, cost_type: str, header: str):
 
     # Render section header and text
     costs_container.header(header)
-    costs_container.markdown(get_text(cost_type))
+    costs_container.markdown(get_asset_text(cost_type))
 
     # Get date for the costs
     month, year = render_date_input(costs_container, key=cost_type)
