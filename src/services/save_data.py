@@ -1,9 +1,9 @@
 from __future__ import annotations
-
 from .check_data import check_data_folder_exists
-from utils.constants import *
 from .ADLSClient import ADLSClient
 from io import BytesIO
+from utils.constants import *
+import pandas as pd
 
 # ========================
 # GENERAL
@@ -43,17 +43,17 @@ def get_sheet_bytes(wb: openpyxl.workbook.workbook.Workbook) -> bytes:
     sheet_bytes = buffer.getvalue()
     wb.close() # after using the workbook, it is necessaty to close it
 
-    return sheet_bytes
+    return BytesIO(sheet_bytes)
 
 # ========================
-# BRONZE
+# TO BRONZE
 # ========================
 
 # Save user's uploaded sheet
 def save_uploaded_sheet(sales_sheet, month: str, year: str) -> str:
 
     # Create file subpath
-    file_path = f'{ADLS_LAYER_BRONZE}/{ADLS_CATEGORY_SALES}/{year}/{month}/{RAW_FILE_PREFIX}{SALES_FILE_PREFIX}{year}_{month}{SALES_FILE_EXTENSION}'
+    file_path = f'{ADLS_LAYER_BRONZE}/{ADLS_CATEGORY_SALES}/{year}/{month}/{RAW_FILE_PREFIX}{SALES_FILE_PREFIX}{year}_{month}{BRONZE_SALES_FILE_EXTENSION}'
 
     # Create return message
     message = generate_save_return_message(file_path, month, year, SAVE_TYPE_VENDAS)
@@ -83,16 +83,24 @@ def save_uploaded_df(df: pd.DataFrame, cost_type:str, month: str, year: str) -> 
     return message
 
 # ========================
-# SILVER
+# TO SILVER
 # ========================
 
+# Save sheet in ADLS as parquet
+# Excel bytes -> DataFrame -> Parquet bytes -> ADLS
 def save_sheet(wb: openpyxl.workbook.workbook.Workbook, month: str, year: str):
 
     # Create path
-    path = f'{ADLS_LAYER_SILVER}/{ADLS_CATEGORY_SALES}/{year}/{month}/{TREATED_FILE_PREFIX}{SALES_FILE_PREFIX}{year}_{month}{SALES_FILE_EXTENSION}'
+    path = f'{ADLS_LAYER_SILVER}/{ADLS_CATEGORY_SALES}/{year}/{month}/{TREATED_FILE_PREFIX}{SALES_FILE_PREFIX}{year}_{month}{SILVER_SALES_FILE_EXTENSION}'
 
     # Get sheet bytes
     sheet_bytes = get_sheet_bytes(wb)
 
-    # Upload file to adls
-    adls_client.upload(path, sheet_bytes)
+    # Read sheet as df
+    sheet_df = pd.read_excel(sheet_bytes)
+
+    # Get df parquet bytes
+    parquet_bytes = get_df_bytes(sheet_df)
+
+    # Upload parquet bytes to adls
+    adls_client.upload(path, parquet_bytes)
