@@ -1,4 +1,5 @@
 import os
+from utils.constants import MSG_FILE_NOT_FOUND
 from utils.helpers import load_env_file
 from azure.identity import ClientSecretCredential
 from azure.storage.filedatalake import DataLakeServiceClient
@@ -46,5 +47,15 @@ class ADLSClient:
         file_client = self.fs_client.get_file_client(path)
         return file_client.download_file().readall()
 
-    def list(self, path: str = ""):
+    def read_folder(self, folder_path: str) -> bytes:
+        paths = self.fs_client.get_paths(path=folder_path)
+
+        for path in paths:
+            if not path.is_directory:
+                file_client = self.fs_client.get_file_client(path.name)
+                return file_client.download_file().readall()
+
+        raise FileNotFoundError(f'{MSG_FILE_NOT_FOUND} {folder_path}')
+
+    def list(self, path: str = "") -> list[str]:
         return [p.name for p in self.fs_client.get_paths(path=path)]

@@ -25,13 +25,14 @@ COSTS_FILE_PREFIX = "costs_"
 RAW_FILE_PREFIX = 'raw_'
 TREATED_FILE_PREFIX = 'treated_'
 PRESENTATION_FILE_PREFIX = 'presentation_'
+PLACEHOLDER_SUFIX = '_placeholder'
 
 SALES_FILE_EXTENSION = ".xlsx"
 COSTS_FILE_EXTENSION = ".parquet"
 TEXT_FILE_EXTENSION = ".md"
 CSV_FILE_EXTENSION = ".csv"
+
 CSV_SEP = ';'
-PLACEHOLDER_SUFIX = '_placeholder'
 
 # ============================================================================
 # DATAFRAME COLUMN NAMES
@@ -88,11 +89,12 @@ COMPONENTS_WIDTH = 'stretch'
 DATA_EDITOR_NUM_ROWS = 'dynamic'
 
 # ============================================================================
-# UI MESSAGES (Portuguese)
+# MESSAGES (Portuguese)
 # ============================================================================
 MSG_UPLOAD_SUCCESS = "Upload bem sucedido!"
 MSG_UPLOAD_ERROR = "Erro no upload"
 MSG_FILE_ERROR = "Erro no arquivo. Tem certeza que escolheu o arquivo certo?"
+MSG_FILE_NOT_FOUND = "Nenhum arquivo encontrado em"
 MSG_FILL_COSTS = "Preencha com seus custos"
 MSG_SEND_INFO = "Enviar informações"
 MSG_SEND_FILE = "Enviar arquivo"
