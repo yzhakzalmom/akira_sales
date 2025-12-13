@@ -5,6 +5,13 @@ from utils.constants import *
 from .ADLSClient import ADLSClient
 from io import BytesIO
 
+# ========================
+# GENERAL
+# ========================
+
+# Create ADLS connection object
+adls_client = ADLSClient()
+
 # Generate message to be return when a file is saved
 def generate_save_return_message(folder_path: str, month: str, year: str, save_type: str) -> str:
     # Create file already exist message
@@ -19,21 +26,34 @@ def generate_save_return_message(folder_path: str, month: str, year: str, save_t
     return return_message
 
 # Return df bytes by saving in memory without saving in disk
-def df_buffer_save(df: pd.DataFrame):
+def get_df_bytes(df: pd.DataFrame) -> bytes:
 
+    # Save df to buffer to get df bytes
     buffer = BytesIO()
     df.to_parquet(buffer, index=False)
     df_bytes = buffer.getvalue()
 
     return df_bytes
 
-def save_sales_sheet(sales_sheet, month: str, year: str):
+def get_sheet_bytes(wb: openpyxl.workbook.workbook.Workbook) -> bytes:
 
-    # Create ADLS connection object
-    adls_client = ADLSClient()
+    # Save sheet to buffer to get sheet bytes
+    buffer = BytesIO()
+    wb.save(buffer)
+    sheet_bytes = buffer.getvalue()
+    wb.close() # after using the workbook, it is necessaty to close it
+
+    return sheet_bytes
+
+# ========================
+# BRONZE
+# ========================
+
+# Save user's uploaded sheet
+def save_uploaded_sheet(sales_sheet, month: str, year: str) -> str:
 
     # Create file subpath
-    file_path = f'{ADLS_LAYER_BRONZE}/{ADLS_CATEGORY_SALES}/{year}/{month}/sales_{year}_{month}{SALES_FILE_EXTENSION}'
+    file_path = f'{ADLS_LAYER_BRONZE}/{ADLS_CATEGORY_SALES}/{year}/{month}/{RAW_FILE_PREFIX}{SALES_FILE_PREFIX}{year}_{month}{SALES_FILE_EXTENSION}'
 
     # Create return message
     message = generate_save_return_message(file_path, month, year, SAVE_TYPE_VENDAS)
@@ -46,21 +66,33 @@ def save_sales_sheet(sales_sheet, month: str, year: str):
 
     return message
 
-def save_costs_df(costs_df: pd.DataFrame, cost_type:str, month: str, year: str):
-
-    # Create ADLS connection object
-    adls_client = ADLSClient()
+def save_uploaded_df(df: pd.DataFrame, cost_type:str, month: str, year: str) -> str:
 
     # Create file subpath
-    file_path = f'{ADLS_LAYER_BRONZE}/{cost_type}/{year}/{month}/{COSTS_FILE_PREFIX}{year}_{month}{COSTS_FILE_EXTENSION}'
+    file_path = f'{ADLS_LAYER_BRONZE}/{cost_type}/{year}/{month}/{RAW_FILE_PREFIX}{COSTS_FILE_PREFIX}{year}_{month}{COSTS_FILE_EXTENSION}'
 
     # Create return message
     message = generate_save_return_message(file_path, month, year, SAVE_TYPE_CUSTOS)
 
-    # Get costs_df bytes
-    costs_df_bytes = df_buffer_save(costs_df)
+    # Get df bytes
+    df_bytes = get_df_bytes(df)
 
     # Save dataframe in ADLS
-    adls_client.upload(file_path, costs_df_bytes)
+    adls_client.upload(file_path, df_bytes)
     
     return message
+
+# ========================
+# SILVER
+# ========================
+
+def save_sheet(wb: openpyxl.workbook.workbook.Workbook, month: str, year: str):
+
+    # Create path
+    path = f'{ADLS_LAYER_SILVER}/{ADLS_CATEGORY_SALES}/{year}/{month}/{TREATED_FILE_PREFIX}{SALES_FILE_PREFIX}{year}_{month}{SALES_FILE_EXTENSION}'
+
+    # Get sheet bytes
+    sheet_bytes = get_sheet_bytes(wb)
+
+    # Upload file to adls
+    adls_client.upload(path, sheet_bytes)
