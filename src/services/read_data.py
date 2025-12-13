@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pandas as pd
 from io import BytesIO
+from openpyxl import load_workbook
 from services.ADLSClient import ADLSClient
 from utils.constants import *
 from utils.helpers import get_asset_file_path
@@ -36,7 +37,7 @@ def get_asset_dataframe(df_name: str) -> pd.DataFrame:
 # LAYERS
 # =======================
 
-def read_sheet_bytes(layer: str, year: str, month: str):
+def read_sheet(layer: str, year: str, month: str):
 
     # Construct the file path using layer, year, and month
     path = f'{layer}/{ADLS_CATEGORY_SALES}/{year}/{month}'
@@ -45,4 +46,4 @@ def read_sheet_bytes(layer: str, year: str, month: str):
     sheet_bytes = BytesIO(adls_client.read_folder(path))
 
     # Return the Excel bytes
-    return sheet_bytes
+    return load_workbook(sheet_bytes)
