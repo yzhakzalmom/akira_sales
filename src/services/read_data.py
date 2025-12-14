@@ -11,9 +11,10 @@ from utils.helpers import get_asset_file_path
 adls_client = ADLSClient()
 
 # =======================
-# ASSETS
+# FROM ASSETS
 # =======================
 
+# Read text file from assets folder
 def get_asset_text(text_file_name: str) -> str:
     
     # Find text path
@@ -21,10 +22,13 @@ def get_asset_text(text_file_name: str) -> str:
 
     # Read sales uploader text
     with open(text_path, 'r', encoding='utf-8') as f:
+        # Read file content into text variable
         text = f.read()
 
+    # Return the text content
     return text
 
+# Read CSV file from assets folder and return as DataFrame
 def get_asset_dataframe(df_name: str) -> pd.DataFrame:
 
     # Find df path
@@ -34,16 +38,30 @@ def get_asset_dataframe(df_name: str) -> pd.DataFrame:
     return pd.read_csv(df_path, sep=CSV_SEP)
 
 # =======================
-# LAYERS
+# FROM LAYERS
 # =======================
 
+# Read Excel sheet from ADLS layer and return as openpyxl workbook
 def read_sheet(layer: str, year: str, month: str):
 
     # Construct the file path using layer, year, and month
     path = f'{layer}/{ADLS_CATEGORY_SALES}/{year}/{month}'
 
     # Read the Excel file from ADLS as bytes
-    sheet_bytes = BytesIO(adls_client.read_folder(path))
+    sheet_bytes = adls_client.read_folder(path)
 
-    # Return the Excel bytes
+    # Return the openpyxl workbook
     return load_workbook(sheet_bytes)
+
+
+# Read tabular file from ADLS layer and return as DataFrame
+def read_tabular(layer: str, category: str, year: str, month: str):
+
+    # Construct the file path using layer, category, year, and month
+    path = f'{layer}/{category}/{year}/{month}'
+
+    # Read the parquet file from ADLS as bytes
+    parquet_bytes = adls_client.read_folder(path)
+
+    # Return the parquet DataFrame
+    return pd.read_parquet(parquet_bytes)
