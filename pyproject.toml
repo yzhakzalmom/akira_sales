@@ -19,6 +19,7 @@ dependencies = [
     "azure-identity>=1.25.1",
     "python-dotenv>=1.0.0",
     "dotenv>=0.9.9",
+    "unidecode>=1.4.0",
 ]
 [tool.setuptools.packages.find]
 where = ["src"]
