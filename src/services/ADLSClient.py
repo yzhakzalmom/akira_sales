@@ -1,4 +1,5 @@
 import os
+from io import BytesIO
 from utils.constants import MSG_FILE_NOT_FOUND
 from utils.helpers import load_env_file
 from azure.identity import ClientSecretCredential
@@ -45,7 +46,7 @@ class ADLSClient:
 
     def read(self, path: str) -> bytes:
         file_client = self.fs_client.get_file_client(path)
-        return file_client.download_file().readall()
+        return BytesIO(file_client.download_file().readall())
 
     def read_folder(self, folder_path: str) -> bytes:
         paths = self.fs_client.get_paths(path=folder_path)
@@ -53,7 +54,7 @@ class ADLSClient:
         for path in paths:
             if not path.is_directory:
                 file_client = self.fs_client.get_file_client(path.name)
-                return file_client.download_file().readall()
+                return BytesIO(file_client.download_file().readall())
 
         raise FileNotFoundError(f'{MSG_FILE_NOT_FOUND} {folder_path}')
 
