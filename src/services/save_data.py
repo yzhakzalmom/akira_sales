@@ -120,9 +120,9 @@ def save_sheet(wb: openpyxl.workbook.workbook.Workbook, month: str, year: str):
 
 # Save df in ADLS as parquet
 # DataFrame -> Parquet bytes -> ADLS
-def save_df(df: pd.DataFrame, layer: str, category: str, year: str, month: str, file_name: str):
+def save_df(df: pd.DataFrame, layer: str, category: str, year: str, month: str):
 
-    path = f'{layer}/{category}/{year}/{month}/{file_name}{TABULAR_STD_EXTENSION}'
+    path = f'{layer}/{category}/{year}/{month}/{category}_{year}_{month}{TABULAR_STD_EXTENSION}'
 
     # Get df parquet bytes
     parquet_bytes = get_df_bytes(df)

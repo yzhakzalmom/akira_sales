@@ -42,6 +42,8 @@ COL_MES = "Mês"
 COL_ANO = "Ano"
 COL_CUSTO = "Custo"
 
+COSTS_COLS = [COL_DESCRICAO, COL_CUSTO, COL_MES, COL_ANO]
+
 # ============================================================================
 # SALES SHEET VALIDATION
 # ============================================================================
