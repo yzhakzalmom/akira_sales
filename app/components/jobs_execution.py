@@ -2,8 +2,6 @@
 Component module for rendering job execution interface.
 Handles UI components for triggering Databricks jobs and verifying required files.
 """
-
-from PIL.ImageOps import contain
 import pandas as pd
 from .general import render_date_input
 from services.read_data import get_asset_text
@@ -24,7 +22,12 @@ def render_trigger_button(container, month: str, year: str):
     if not check_active_run(container):
         # On button click, trigger the job
         if container.button(MSG_TRIGGER_JOB, width=COMPONENTS_WIDTH):
-            trigger_job(container, month, year)
+
+            # Prevent a new job triggered using the same button
+            if not check_active_run(container):
+                trigger_job(container, month, year)
+            else:
+                container.error(MSG_ACTIVE_RUN, icon=ICON_ERROR)
 
 def render_files_confirmation(container, month: str, year: str):
     """
