@@ -14,7 +14,6 @@ load_dotenv()
 # Get Databricks configuration from environment variables
 DATABRICKS_HOST = os.getenv('DATABRICKS_HOST')
 DATABRICKS_TOKEN = os.getenv('DATABRICKS_TOKEN')
-DATABRICKS_JOB_ID = os.getenv('DATABRICKS_JOB_ID')
 
 # HTTP headers for Databricks API requests
 headers = {
