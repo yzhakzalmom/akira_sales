@@ -156,3 +156,7 @@ YEAR_KEY_PREFIX = "year_"
 # Allowed file extensions for sales sheet uploads
 SALES_SHEET_ALLOWED_TYPES = ["xlsx", "xls"]
 
+# ============================================================================
+# DATABRICKS
+# ============================================================================
+DATABRICKS_JOB_ID='776717143405919'
