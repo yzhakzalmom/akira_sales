@@ -32,9 +32,9 @@ with main_col:
     central_container.divider()
 
     # Render products costs uploader component
-    costs_uploader.render_costs_uploader(central_container, 'products_costs', 'Custos com produtos 🥋')
+    costs_uploader.render_costs_uploader(central_container, ADLS_CATEGORY_PRODUCTS_COSTS, PRODUCTS_COSTS_HEADER)
     central_container.divider()
 
     # Render other costs uploader component
-    costs_uploader.render_costs_uploader(central_container, 'other_costs', 'Outros Custos 📊')
+    costs_uploader.render_costs_uploader(central_container, ADLS_CATEGORY_OTHER_COSTS, OTHER_COSTS_HEADER)
     

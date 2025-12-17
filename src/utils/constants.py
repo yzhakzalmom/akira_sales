@@ -85,6 +85,9 @@ JOBS_PAGE_HEADER = 'Execuções - Fechamento de Mês'
 SALES_UPLOADER_HEADER = 'Planilha de Vendas 📈'
 SALES_PREVIEW_SUBHEADER = 'Prévia do arquivo'
 
+PRODUCTS_COSTS_HEADER = 'Custos com produtos 🥋'
+OTHER_COSTS_HEADER = 'Outros Custos 📊'
+
 JOBS_EXECUTION_HEADER = 'Execução do Fechamento'
 JOB_FILE_CONF_SUBHEADER = 'Confirmação de arquivos'
 
