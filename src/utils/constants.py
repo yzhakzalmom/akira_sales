@@ -16,15 +16,18 @@ ADLS_LAYER_GOLD = "gold"
 ADLS_CATEGORY_SALES = "sales"
 ADLS_CATEGORY_PRODUCTS_COSTS = "products_costs"
 ADLS_CATEGORY_OTHER_COSTS = "other_costs"
+ADLS_CATEGORY_PRODUCTS_PER_SALE = 'products_per_sale'
+
+DBFS_TMP_PATH = 'file:/Workspace/Users/zalmom_admin@yzalmomoutlook.onmicrosoft.com/akira_sales/tmp/'
+
+DEV_CONTAINER = 'abfss://dev@akiradatalake.dfs.core.windows.net/'
+PROD_CONTAINER = 'abfss://prod@akiradatalake.dfs.core.windows.net/'
 
 # ============================================================================
 # FILE PATTERNS AND NAMING
 # ============================================================================
 SALES_FILE_PREFIX = "sales_"
 COSTS_FILE_PREFIX = "costs_"
-RAW_FILE_PREFIX = 'raw_'
-TREATED_FILE_PREFIX = 'treated_'
-PRESENTATION_FILE_PREFIX = 'presentation_'
 PLACEHOLDER_SUFIX = '_placeholder'
 
 BRONZE_SALES_FILE_EXTENSION = ".xlsx"
@@ -137,4 +140,3 @@ YEAR_KEY_PREFIX = "year_"
 # ============================================================================
 # Allowed file extensions for sales sheet uploads
 SALES_SHEET_ALLOWED_TYPES = ["xlsx", "xls"]
-

@@ -1,7 +1,7 @@
-import pandas as pd
+from __future__ import annotations
 
 # Troca ponto por vírgula nas colunas float64 em um dataframe
-def replace_decimal_character(df: pd.DataFrame) -> pd.DataFrame:
+def replace_decimal_character(df: pyspark.pandas.DataFrame) -> pyspark.pandas.DataFrame:
 
     # Para cada coluna
     for column in df.columns:
