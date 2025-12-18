@@ -1,4 +1,4 @@
-name: Deploy Streamlit (uv + editable install)
+name: Deploy Akira Streamlit App (uv + editable install)
 
 on:
   push:
