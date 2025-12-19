@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  streamlit-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: akira-sales
+    image: streamlit-app:v1
+    ports:
+      - "8081:8501"
