@@ -33,6 +33,9 @@ def read_sheet(layer: str, year: str, month: str):
     # Get desired sheet's name
     file_name = get_filename_from_folder(path)
 
+    # Create tmp folder
+    dbutils.fs.mkdirs(DBFS_TMP_PATH)
+
     # Copy sheet to tmp folder
     dbutils.fs.cp(
         f'{path}/{file_name}',
