@@ -3,7 +3,11 @@ from io import BytesIO
 from databricks.sdk.runtime import dbutils
 from utils.constants import *
 from dbc.utils.helpers import clear_tmp_folder
+import os
 import pyspark.pandas as ps
+
+# Get env variable
+ADLS_CONTAINER = os.getenv('ADLS_CONTAINER')
 
 # ========================
 # GENERAL
@@ -46,7 +50,7 @@ def get_sheet_bytes(wb: openpyxl.workbook.workbook.Workbook) -> bytes:
 def save_sheet(wb, year: str, month: str):
 
     # Create path
-    path = f'{PROD_CONTAINER}{ADLS_LAYER_SILVER}/{ADLS_CATEGORY_SALES}/{year}/{month}'
+    path = f'{ADLS_CONTAINER}{ADLS_LAYER_SILVER}/{ADLS_CATEGORY_SALES}/{year}/{month}'
 
     # Get sheet bytes
     sheet_bytes = get_sheet_bytes(wb)
@@ -64,7 +68,7 @@ def save_sheet(wb, year: str, month: str):
 # DataFrame -> Parquet bytes -> ADLS
 def save_df(df: ps.DataFrame, layer: str, category: str, year: str, month: str):
 
-    path = f'{PROD_CONTAINER}{layer}/{category}/{year}/{month}'
+    path = f'{ADLS_CONTAINER}{layer}/{category}/{year}/{month}'
 
     # Save in ADLS
     df.to_parquet(path, index=False)
