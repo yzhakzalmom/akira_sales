@@ -16,6 +16,7 @@ ADLS_LAYER_GOLD = "gold"
 ADLS_CATEGORY_SALES = "sales"
 ADLS_CATEGORY_PRODUCTS_COSTS = "products_costs"
 ADLS_CATEGORY_OTHER_COSTS = "other_costs"
+ADLS_CATEGORY_PRODUCTS_PER_SALE = 'products_per_sale'
 # ============================================================================
 # FILE PATTERNS AND NAMING
 # ============================================================================
