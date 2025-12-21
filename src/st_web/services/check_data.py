@@ -1,5 +1,5 @@
 import pandas as pd
-from services.ADLSClient import ADLSClient
+from .ADLSClient import ADLSClient
 from utils.constants import *
 
 # Checks if the sales sheet pattern is correct and return sheet preview

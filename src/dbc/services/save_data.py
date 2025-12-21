@@ -2,7 +2,7 @@ from __future__ import annotations
 from io import BytesIO
 from databricks.sdk.runtime import dbutils
 from utils.constants import *
-from utils.helpers import clear_tmp_folder
+from dbc.utils.helpers import clear_tmp_folder
 import pyspark.pandas as ps
 
 # ========================

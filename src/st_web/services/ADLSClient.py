@@ -1,7 +1,7 @@
 import os
 from io import BytesIO
 from utils.constants import MSG_FILE_NOT_FOUND
-from utils.helpers import load_env_file
+from st_web.utils.helpers import load_env_file
 from azure.identity import ClientSecretCredential
 from azure.storage.filedatalake import DataLakeServiceClient
 
