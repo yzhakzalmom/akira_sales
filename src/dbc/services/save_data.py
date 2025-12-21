@@ -3,7 +3,11 @@ from io import BytesIO
 from databricks.sdk.runtime import dbutils
 from utils.constants import *
 from dbc.utils.helpers import clear_tmp_folder
+import os
 import pyspark.pandas as ps
+
+# Get env variable
+ADLS_CONTAINER = os.getenv('ADLS_CONTAINER')
 
 # ========================
 # GENERAL

@@ -1,10 +1,15 @@
 from __future__ import annotations
 
+import os
 import pyspark.pandas as ps
 from io import BytesIO
 from databricks.sdk.runtime import dbutils
 from utils.constants import *
 from dbc.utils.helpers import get_filename_from_folder
+
+# Get env variables
+ADLS_CONTAINER = os.getenv('ADLS_CONTAINER')
+DBFS_TMP_PATH = os.getenv('DBFS_TMP_PATH')
 
 # =======================
 # FROM LAYERS

@@ -16,12 +16,6 @@ ADLS_LAYER_GOLD = "gold"
 ADLS_CATEGORY_SALES = "sales"
 ADLS_CATEGORY_PRODUCTS_COSTS = "products_costs"
 ADLS_CATEGORY_OTHER_COSTS = "other_costs"
-
-DBFS_TMP_PATH = 'file:/Workspace/Users/zalmom_admin@yzalmomoutlook.onmicrosoft.com/akira_sales/tmp/'
-
-DEV_OR_PROD = 'dev'
-ADLS_CONTAINER = f'abfss:{DEV_OR_PROD}//@akiradatalake.dfs.core.windows.net/'
-
 # ============================================================================
 # FILE PATTERNS AND NAMING
 # ============================================================================
@@ -160,8 +154,3 @@ YEAR_KEY_PREFIX = "year_"
 # ============================================================================
 # Allowed file extensions for sales sheet uploads
 SALES_SHEET_ALLOWED_TYPES = ["xlsx", "xls"]
-
-# ============================================================================
-# DATABRICKS
-# ============================================================================
-DATABRICKS_JOB_ID='776717143405919'
