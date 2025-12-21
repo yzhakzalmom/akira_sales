@@ -4,7 +4,7 @@ import datetime
 import base64
 
 def get_akira_path():
-    return Path(__file__).parent.parent.parent
+    return Path(__file__).parents[3]
 
 def get_app_path():
     return get_akira_path() / 'app'
