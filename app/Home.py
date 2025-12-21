@@ -4,7 +4,6 @@ Allows users to upload sales data, products costs, and other costs to ADLS.
 """
 
 import streamlit as st
-from pathlib import Path
 from components import header, sales_uploader, costs_uploader
 from utils.constants import *
 

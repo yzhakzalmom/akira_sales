@@ -1,4 +1,4 @@
-from utils.helpers import get_asset_file_path, image_to_base64
+from st_web.utils.helpers import get_asset_file_path, image_to_base64
 from utils.constants import *
 
 # Render header with logo and title

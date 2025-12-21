@@ -16,7 +16,6 @@ ADLS_LAYER_GOLD = "gold"
 ADLS_CATEGORY_SALES = "sales"
 ADLS_CATEGORY_PRODUCTS_COSTS = "products_costs"
 ADLS_CATEGORY_OTHER_COSTS = "other_costs"
-ADLS_CATEGORY_PRODUCTS_PER_SALE = 'products_per_sale'
 
 DBFS_TMP_PATH = 'file:/Workspace/Users/zalmom_admin@yzalmomoutlook.onmicrosoft.com/akira_sales/tmp/'
 
@@ -28,6 +27,9 @@ PROD_CONTAINER = 'abfss://prod@akiradatalake.dfs.core.windows.net/'
 # ============================================================================
 SALES_FILE_PREFIX = "sales_"
 COSTS_FILE_PREFIX = "costs_"
+RAW_FILE_PREFIX = 'raw_'
+TREATED_FILE_PREFIX = 'treated_'
+PRESENTATION_FILE_PREFIX = 'presentation_'
 PLACEHOLDER_SUFIX = '_placeholder'
 
 BRONZE_SALES_FILE_EXTENSION = ".xlsx"
@@ -70,6 +72,7 @@ ASSET_TYPE_DATAFRAMES = "dataframes"
 ASSET_TYPE_ICONS = "icons"
 
 SALES_UPLOADER_TEXT_FILE_NAME = 'sales_uploader'
+JOBS_EXECUTION_TEXT_FILE_NAME = 'job_execution'
 WHITE_LOGO_FILE_NAME = 'white_logo.png'
 BLACK_LOGO_FILE_NAME = 'black_logo.png'
 
@@ -80,14 +83,25 @@ MAIN_PAGE_TITLE = 'Akira ~ Uploads'
 MAIN_PAGE_LAYOUT = 'wide'
 MAIN_PAGE_HEADER = 'Uploads de Arquivos'
 
+JOBS_PAGE_TITLE = 'Akira ~ Execuções'
+JOBS_PAGE_LAYOUT = 'wide'
+JOBS_PAGE_HEADER = 'Execuções - Fechamento de Mês'
+
 SALES_UPLOADER_HEADER = 'Planilha de Vendas 📈'
 SALES_PREVIEW_SUBHEADER = 'Prévia do arquivo'
+
+PRODUCTS_COSTS_HEADER = 'Custos com produtos 🥋'
+OTHER_COSTS_HEADER = 'Outros Custos 📊'
+
+JOBS_EXECUTION_HEADER = 'Execução do Fechamento'
+JOB_FILE_CONF_SUBHEADER = 'Confirmação de arquivos'
 
 DATE_INPUT_MONTH_LABEL = 'Mês do arquivo'
 DATE_INPUT_YEAR_LABEL = 'Ano do arquivo'
 
 
 MAIN_PAGE_COLUMN_LAYOUT = [1, 4, 1]
+JOBS_PAGE_COLUMN_LAYOUT = [1, 4, 1]
 DATE_INPUT_COLUMN_LAYOUT = [1, 1, 2]
 DATE_INPUT_COLUMN_GAP = 'medium'
 COMPONENTS_WIDTH = 'stretch'
@@ -105,6 +119,11 @@ MSG_SEND_INFO = "Enviar informações"
 MSG_SEND_FILE = "Enviar arquivo"
 MSG_SALES_SHEET_UPLOAD = 'Envie planilha de vendas'
 MSG_SALES_SHEET_FORMAT_ERROR = "Arquivo não está no formato padrão da planilha de vendas"
+MSG_TRIGGER_JOB = 'Iniciar execução'
+MSG_RUN_STARTED = 'Execução iniciada com sucesso!'
+MSG_RUN_ERROR = 'Erro na execução'
+MSG_CHECK_RUN_ERROR = 'Não foi possível checar as execuções ativas'
+MSG_ACTIVE_RUN = 'Não é possível executar, há uma execução ativa no momento.'
 
 # Message template for file replacement
 MSG_FILE_EXISTS_TEMPLATE = (
@@ -124,6 +143,7 @@ SAVE_TYPE_CUSTOS = "custos"
 ICON_SUCCESS = "✅"
 ICON_ERROR = "❌"
 ICON_MAIN_PAGE = '🥋'
+ICON_JOBS_PAGE = '🥋'
 
 # ============================================================================
 # UI COMPONENT KEYS
@@ -140,3 +160,8 @@ YEAR_KEY_PREFIX = "year_"
 # ============================================================================
 # Allowed file extensions for sales sheet uploads
 SALES_SHEET_ALLOWED_TYPES = ["xlsx", "xls"]
+
+# ============================================================================
+# DATABRICKS
+# ============================================================================
+DATABRICKS_JOB_ID='776717143405919'
