@@ -1,5 +1,8 @@
 from databricks.sdk.runtime import dbutils
 from utils.constants import *
+import os
+
+DBFS_TMP_PATH = os.getenv('DBFS_TMP_PATH')
 
 # Get year and month parameters passed to a notebook
 def get_year_month_params():
@@ -21,3 +24,5 @@ def clear_tmp_folder():
     
     for file_info in dbutils.fs.ls(DBFS_TMP_PATH):
         dbutils.fs.rm(file_info.path)
+
+    dbutils.fs.rm(DBFS_TMP_PATH)
