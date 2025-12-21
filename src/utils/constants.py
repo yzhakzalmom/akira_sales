@@ -19,8 +19,8 @@ ADLS_CATEGORY_OTHER_COSTS = "other_costs"
 
 DBFS_TMP_PATH = 'file:/Workspace/Users/zalmom_admin@yzalmomoutlook.onmicrosoft.com/akira_sales/tmp/'
 
-DEV_CONTAINER = 'abfss://dev@akiradatalake.dfs.core.windows.net/'
-PROD_CONTAINER = 'abfss://prod@akiradatalake.dfs.core.windows.net/'
+DEV_OR_PROD = 'dev'
+ADLS_CONTAINER = f'abfss:{DEV_OR_PROD}//@akiradatalake.dfs.core.windows.net/'
 
 # ============================================================================
 # FILE PATTERNS AND NAMING

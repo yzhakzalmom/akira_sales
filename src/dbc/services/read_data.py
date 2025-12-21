@@ -23,7 +23,7 @@ def read_sheet(layer: str, year: str, month: str):
     from openpyxl import load_workbook
     
     # Construct the file path using layer, year, and month
-    path = f'{PROD_CONTAINER}{layer}/{ADLS_CATEGORY_SALES}/{year}/{month}'
+    path = f'{ADLS_CONTAINER}{layer}/{ADLS_CATEGORY_SALES}/{year}/{month}'
 
     # Get desired sheet's name
     file_name = get_filename_from_folder(path)
@@ -44,7 +44,7 @@ def read_sheet(layer: str, year: str, month: str):
 def read_tabular(layer: str, category: str, year: str, month: str) -> ps.DataFrame:
 
     # Construct the file path using layer, category, year, and monthy
-    path = f'{PROD_CONTAINER}{layer}/{category}/{year}/{month}'
+    path = f'{ADLS_CONTAINER}{layer}/{category}/{year}/{month}'
 
     # Return the parquet DataFrame
     return ps.read_parquet(path)
