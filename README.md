@@ -1,165 +1,208 @@
-# Akira Sales Management System 🥋
+# Akira Sales
 
-A comprehensive sales data management and processing system designed to handle Mercado Livre sales data, product costs, and other business costs. The system provides a user-friendly Streamlit web interface for data uploads and implements a robust data pipeline using a medallion architecture. The final purpose is to present insights on the sales data to the client on PowerBI.
+A Streamlit-based web application for uploading and managing sales data, product costs, and other costs to Azure Data Lake Storage (ADLS). The application provides an intuitive interface for data uploads and month-end closing job executions.
 
-## 📋 Table of Contents
+## Features
 
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Data Pipeline](#data-pipeline)
-- [Development](#development)
-- [Technologies](#technologies)
+- **Sales Data Upload**: Upload sales spreadsheets to ADLS bronze layer
+- **Cost Management**: Upload product costs and other costs separately
+- **Job Execution**: Execute month-end closing processes
+- **Data Validation**: Preview and validate uploaded data before processing
+- **Azure Integration**: Seamless integration with Azure Data Lake Storage
 
-## ✨ Features
+## Prerequisites
 
-- **Sales Data Upload**: Upload and process monthly sales sheets from Mercado Livre
-- **Cost Management**: Upload and manage product costs and other business costs
-- **Data Validation**: Automatic format checking and validation of uploaded files
-- **Data Processing**: Automated data transformation pipeline with bronze, silver, and gold layers
-- **Dashboard Integration**: Processed data ready for Power BI dashboards
-- **Workflow Orchestration**: Apache Airflow integration for automated data processing workflows
+- Python 3.10 or higher
+- [uv](https://github.com/astral-sh/uv) package manager
+- Docker and Docker Compose (optional, for containerized deployment)
+- Azure and Databricks credentials configured (for ADLS and Databricks Notebooks and Jobs access)
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 akira_sales/
-├── app/                    # Streamlit web application
-│   ├── assets/            # Static assets (icons, texts, placeholder data)
-│   ├── components/        # UI components (uploaders, header, general)
-│   └── main.py            # Main Streamlit app entry point
-├── data/                  # Data storage (medallion architecture)
-│   ├── bronze/           # Raw data layer
-│   ├── silver/           # Cleaned/transformed data layer
-│   └── gold/             # Final processed data layer
-├── notebooks/             # Jupyter notebooks for data processing
-│   ├── BS_treat_sales_sheet.ipynb
-│   ├── GG_identify_products.ipynb
-│   └── SG_clean_sales.ipynb
-├── src/                   # Source code
-│   ├── functions/        # Helper functions
-│   ├── services/         # Business logic services
-│   └── utils/            # Utility functions
-├── dashboards/           # Power BI dashboard files
-└── main.py               # CLI entry point
+├── app/                    # Streamlit application
+│   ├── components/         # Reusable UI components
+│   ├── pages/              # Streamlit pages
+│   └── Home.py            # Main application entry point
+├── src/                    # Source code
+│   ├── services/           # Business logic and ADLS integration
+│   ├── utils/              # Utility functions and constants
+│   └── functions/          # Helper functions
+├── pyproject.toml          # Project dependencies and metadata
+├── Dockerfile              # Docker image configuration
+├── docker-compose.yml      # Docker Compose configuration
+└── .dockerignore           # Docker ignore patterns
 ```
 
-## 🔧 Requirements
+## Installation
 
-- Python >= 3.12
-- Windows OS (uses `pywin32` and `xlwings` for Excel integration)
-
-## 🚀 Installation
+### Local Development
 
 1. **Clone the repository** (if applicable):
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/yzhakzalmom/akira_sales.git
    cd akira_sales
    ```
 
 2. **Install dependencies using uv**:
    ```bash
-   uv sync
+   uv run pip install -e .
    ```
 
-   Or using pip:
+3. **Configure environment variables**:
+   Create a `.env` file with your Azure and Databricks credentials based on `.env.example` file
+
+4. **Run the application**:
    ```bash
-   pip install -e .
+   uv run streamlit run app/Home.py
    ```
 
-## 💻 Usage
+5. **Access the application**:
+   Open your browser and navigate to `http://localhost:8501`
 
-### Running the Streamlit Application
+## Docker Deployment
 
-To start the web interface for uploading and managing sales data:
+### Build and Run with Docker Compose
+
+The easiest way to run the application in a containerized environment:
 
 ```bash
-streamlit run app/main.py
+docker compose up --build
 ```
 
-The application will open in your default web browser, typically at `http://localhost:8501`.
+This will:
+- Build the Docker image
+- Start the container
+- Expose the application on port `8081` (mapped to container port 8501)
 
-### Using the Application
+Access the application at: `http://localhost:8081`
 
-1. **Upload Sales Sheet**:
-   - Select the month and year for the sales data
-   - Upload the Excel file containing sales data
-   - Review the preview
-   - Click "Enviar arquivo" to save
+### Build Docker Image Manually
 
-2. **Upload Product Costs**:
-   - Fill products costs table
-   - Review and confirm
+```bash
+docker build -t streamlit-app:v1 .
+```
 
-3. **Upload Other Costs**:
-   - Fill other business costs
-   - Review and confirm
+### Run Docker Container
 
-### Data Processing
+```bash
+docker run -p 8081:8501 streamlit-app:v1
+```
 
-The system uses a medallion architecture:
+## Azure Container Apps Deployment
 
-- **Bronze Layer**: Raw uploaded data stored as-is
-- **Silver Layer**: Cleaned and validated data
-- **Gold Layer**: Final processed data ready for analysis and dashboards
+This application is configured for deployment to Azure Container Apps. The Dockerfile is optimized for Azure environments:
 
-Data processing workflows can be orchestrated using Apache Airflow.
+- Listens on `0.0.0.0` for proper network binding
+- Exposes port 8501 for Streamlit
+- Uses multi-stage build approach with `uv` for efficient package management
 
-## 🔄 Data Pipeline
+### Deployment Steps
 
-The project implements a medallion data architecture:
+1. **Build and push the image to Azure Container Registry (ACR)**:
+   ```bash
+   az acr build --registry <your-registry-name> --image streamlit-app:v1 .
+   ```
 
-1. **Bronze (Raw)**: Initial data uploads stored in `data/bronze/`
-2. **Silver (Cleaned)**: Processed and validated data in `data/silver/`
-3. **Gold (Final)**: Aggregated and enriched data in `data/gold/`
+2. **Deploy to Azure Container Apps**:
+   Use the Azure Portal or Azure CLI to deploy the container image to your Container App environment.
 
-Jupyter notebooks in the `notebooks/` directory handle the transformation steps:
-- `BS_treat_sales_sheet.ipynb`: Initial sales sheet treatment
-- `GG_identify_products.ipynb`: Product identification and matching
-- `SG_clean_sales.ipynb`: Final sales data cleaning
+## Usage
 
-## 🛠️ Development
+### Uploading Sales Data
 
-### Project Setup
+1. Navigate to the main page
+2. Use the **"Planilha de Vendas"** section to upload your sales spreadsheet
+3. Preview the data to ensure correctness
+4. Select the month and year for the data
+5. Click upload to send the file to ADLS
 
-The project uses `uv` for dependency management. The `pyproject.toml` file contains all project dependencies and metadata.
+### Uploading Costs
 
-### Key Dependencies
+1. Use the **"Custos com produtos"** section for product costs
+2. Use the **"Outros Custos"** section for other operational costs
+3. Fill in the required fields (description, cost, month, year)
+4. Upload to ADLS
 
-- **Streamlit**: Web application framework
+### Job Execution
+
+1. Navigate to the **"Execução"** page
+2. Configure the files for month-end closing
+3. Execute the closing process
+
+## Development
+
+### Project Dependencies
+
+The project uses modern Python packaging with `pyproject.toml`. Main dependencies include:
+
+- **Streamlit**: Web framework for the UI
 - **Pandas**: Data manipulation and analysis
-- **OpenPyXL / xlwings**: Excel file handling
-- **Apache Airflow**: Workflow orchestration
-- **Pillow**: Image processing for UI assets
+- **Azure Storage File Datalake**: Azure ADLS integration
+- **Azure Identity**: Authentication for Azure services
+
+See `pyproject.toml` for the complete list of dependencies.
+
+### Adding New Dependencies
+
+To add a new dependency:
+
+1. Update `pyproject.toml` with the new package
+2. Reinstall the package:
+   ```bash
+   uv run pip install -e .
+   ```
 
 ### Code Structure
 
-- `app/components/`: Reusable UI components
-- `src/services/`: Business logic and data services
-- `src/utils/`: Utility functions and helpers
-- `src/functions/`: Data processing functions
+- **Components** (`app/components/`): Reusable Streamlit components
+- **Services** (`src/services/`): Business logic, ADLS client, data operations
+- **Utils** (`src/utils/`): Constants and helper functions
 
-## 🏗️ Technologies
+## Environment Variables
 
-- **Python 3.12+**: Core programming language
-- **Streamlit**: Web application framework
-- **Pandas**: Data processing
-- **Apache Airflow 3.1.4**: Workflow orchestration
-- **OpenPyXL**: Excel file reading/writing
-- **xlwings**: Excel automation (Windows)
-- **Power BI**: Business intelligence and visualization
+The application required environment variables are described in `.env.example`
 
-## 📝 License
+## Troubleshooting
 
-[Add your license information here]
+### Port Already in Use
 
-## 👥 Contributors
+If port 8501 is already in use, you can change the port in the Streamlit command:
+```bash
+uv run streamlit run app/Home.py --server.port 8502
+```
 
-- Yzhak Zalmom ([GitHub](https://github.com/yzhakzalmom))
+Or modify the port mapping in `docker-compose.yml`:
+```yaml
+ports:
+  - "8082:8501"
+```
 
----
+### Docker Build Issues
 
-**Version**: 0.1.0
+If you encounter issues building the Docker image:
+
+1. Ensure you have the latest version of Docker
+2. Check that all required files are present (not ignored by `.dockerignore`)
+3. Verify the `pyproject.toml` file is valid
+
+### Azure Connection Issues
+
+If you're having trouble connecting to Azure ADLS:
+
+1. Verify your Azure credentials are correctly configured
+2. Check network connectivity and firewall rules
+3. Ensure your Azure service principal or managed identity has the necessary permissions
+
+## Contributing
+
+1. Create a feature branch
+2. Make your changes
+3. Test locally using `uv run streamlit run app/Home.py`
+4. Submit a pull request
+
+## Support
+
+For issues and questions, please [create an issue](https://github.com/yzhakzalmom/akira_sales/issues) or contact the development team.
 
