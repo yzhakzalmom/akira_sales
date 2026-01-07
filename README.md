@@ -146,9 +146,9 @@ docker build -t streamlit-app:v1 .
 docker run -p 8081:8501 streamlit-app:v1
 ```
 
-## Azure Web Apps Deployment
+## Azure App Services Deployment
 
-This application is deployed to **Azure Web Apps** for production hosting. The Dockerfile is optimized for Azure environments:
+This application is deployed to **Azure App Services** for production hosting. The Dockerfile is optimized for Azure environments:
 
 - Listens on `0.0.0.0` for proper network binding
 - Exposes port 8501 for Streamlit
@@ -161,13 +161,13 @@ This application is deployed to **Azure Web Apps** for production hosting. The D
    az acr build --registry <your-registry-name> --image streamlit-app:v1 .
    ```
 
-2. **Deploy to Azure Web Apps**:
-   - Configure Azure Web App to use the container image from ACR
+2. **Deploy to Azure App Services**:
+   - Configure Azure App Service to use the container image from ACR
    - Set up continuous deployment (CD) for automatic updates
-   - Configure environment variables in Azure Web App settings
+   - Configure environment variables in Azure App Service settings
    - Use Azure Portal or Azure CLI to deploy and manage the application
 
-### Azure Web Apps Benefits
+### Azure App Services Benefits
 
 - **Managed Service**: Automatic scaling, patching, and monitoring
 - **Integration**: Seamless integration with other Azure services (ADLS, Databricks)
