@@ -1,6 +1,6 @@
 # Akira Sales
 
-A Streamlit-based web application for uploading and managing sales data, product costs, and other costs to Azure Data Lake Storage (ADLS). The application provides an intuitive interface for data uploads and month-end closing job executions.
+A Streamlit-based web application for uploading and managing sales data, product costs, and other costs to Azure Data Lake Storage (ADLS). The application provides an intuitive interface for data uploads and month-end closing job executions. All data is stored in Parquet format for optimal performance and cost efficiency.
 
 ## Features
 
@@ -49,6 +49,22 @@ Data flows through three layers in ADLS:
 - **Gold Layer**: Final curated data with products identified per sale, ready for analytics and reporting
 
 This architecture ensures data quality, traceability, and enables incremental processing while maintaining the raw data for audit purposes.
+
+### Data Storage Format: Parquet
+
+All treated data in ADLS is stored in **Parquet format** instead of traditional tabular files (CSV, Excel). This choice provides significant advantages for data processing and analytics:
+
+#### Why Parquet?
+
+- **Columnar Storage**: Data is stored column-wise rather than row-wise, enabling efficient column pruning and reducing I/O when querying specific columns
+- **Compression**: Advanced compression algorithms (Snappy, Gzip, LZ4) significantly reduce storage costs and improve read/write performance
+- **Schema Evolution**: Supports schema changes over time without breaking existing data, essential for evolving business requirements
+- **Type Safety**: Preserves data types (dates, decimals, etc.) without conversion issues common in CSV files
+- **Performance**: Optimized for analytical workloads, enabling faster queries and aggregations in Databricks
+- **Compatibility**: Native support in Databricks, Spark, and most modern data processing frameworks
+- **Partitioning**: Efficient partitioning strategies enable faster data filtering and processing at scale
+
+By using Parquet, the pipeline achieves better performance, lower storage costs, and improved data quality compared to traditional tabular file formats.
 
 ## Prerequisites
 
@@ -130,9 +146,9 @@ docker build -t streamlit-app:v1 .
 docker run -p 8081:8501 streamlit-app:v1
 ```
 
-## Azure Container Apps Deployment
+## Azure Web Apps Deployment
 
-This application is configured for deployment to Azure Container Apps. The Dockerfile is optimized for Azure environments:
+This application is deployed to **Azure Web Apps** for production hosting. The Dockerfile is optimized for Azure environments:
 
 - Listens on `0.0.0.0` for proper network binding
 - Exposes port 8501 for Streamlit
@@ -145,8 +161,18 @@ This application is configured for deployment to Azure Container Apps. The Docke
    az acr build --registry <your-registry-name> --image streamlit-app:v1 .
    ```
 
-2. **Deploy to Azure Container Apps**:
-   Use the Azure Portal or Azure CLI to deploy the container image to your Container App environment.
+2. **Deploy to Azure Web Apps**:
+   - Configure Azure Web App to use the container image from ACR
+   - Set up continuous deployment (CD) for automatic updates
+   - Configure environment variables in Azure Web App settings
+   - Use Azure Portal or Azure CLI to deploy and manage the application
+
+### Azure Web Apps Benefits
+
+- **Managed Service**: Automatic scaling, patching, and monitoring
+- **Integration**: Seamless integration with other Azure services (ADLS, Databricks)
+- **Cost-Effective**: Pay only for the resources you use with flexible pricing tiers
+- **Security**: Built-in authentication, SSL certificates, and network isolation options
 
 ## Usage
 
