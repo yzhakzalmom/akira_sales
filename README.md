@@ -7,9 +7,10 @@ A Streamlit-based web application for uploading and managing sales data, product
 - **Sales Data Upload**: Upload sales spreadsheets to ADLS bronze layer
 - **Dashboard**: Interactive sales KPIs, trends, and breakdowns (uses mock data to protect client privacy)
 - **Cost Management**: Upload product costs and other costs separately
-- **Job Execution**: Execute month-end closing processes
+- **Job Execution**: Execute month-end closing processes via Databricks jobs
 - **Data Validation**: Preview and validate uploaded data before processing
-- **Azure Integration**: Seamless integration with Azure Data Lake Storage
+- **Azure Integration**: Seamless integration with Azure Data Lake Storage (ADLS)
+- **Automated Data Processing**: Databricks jobs automate client data transformations using medallion architecture
 
 ## Dashboard
 
@@ -26,6 +27,28 @@ A built-in dashboard provides a quick, visual overview of sales performance and 
    - Production Costs
    - Daily Sales
 - Data source: This project used Azure Data Lake Storage Gen2 (ADLS Gen 2). However, to protect the client's privacy, the dashboard uses mock/synthetic data. The mock dataset mirrors the real schema so you can safely demo the UI and validate interactions without exposing sensitive information.
+
+## Data Processing Pipeline
+
+The application uses **Databricks jobs** to automate data processing workflows with client data. All processed data is stored in Azure Data Lake Storage (ADLS) following the **medallion architecture** (bronze, silver, gold layers).
+
+### Automation Workflow
+
+The Databricks jobs execute a 3-step automated process:
+
+1. **Transform Sales Sheet into DataFrame**: Convert uploaded sales spreadsheets into structured DataFrames for processing
+2. **Clean Sales Sheet**: Apply data cleaning operations to ensure data quality and consistency
+3. **Identify Products per Sale**: Extract and identify individual products associated with each sale transaction
+
+### Medallion Architecture
+
+Data flows through three layers in ADLS:
+
+- **Bronze Layer**: Raw, unprocessed data as uploaded from the Streamlit application
+- **Silver Layer**: Cleaned and validated data after the transformation and cleaning steps
+- **Gold Layer**: Final curated data with products identified per sale, ready for analytics and reporting
+
+This architecture ensures data quality, traceability, and enables incremental processing while maintaining the raw data for audit purposes.
 
 ## Prerequisites
 
