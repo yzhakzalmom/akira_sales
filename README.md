@@ -5,10 +5,27 @@ A Streamlit-based web application for uploading and managing sales data, product
 ## Features
 
 - **Sales Data Upload**: Upload sales spreadsheets to ADLS bronze layer
+- **Dashboard**: Interactive sales KPIs, trends, and breakdowns (uses mock data to protect client privacy)
 - **Cost Management**: Upload product costs and other costs separately
 - **Job Execution**: Execute month-end closing processes
 - **Data Validation**: Preview and validate uploaded data before processing
 - **Azure Integration**: Seamless integration with Azure Data Lake Storage
+
+## Dashboard
+
+A built-in dashboard provides a quick, visual overview of sales performance and operational costs.
+
+- What you can see
+   - Gross Revenue
+   - Refunds
+   - Estimated Tax
+   - Plataform Payout
+   - Profit
+   - Net Revenue
+   - Margin
+   - Production Costs
+   - Daily Sales
+- Data source: This project used Azure Data Lake Storage Gen2 (ADLS Gen 2). However, to protect the client's privacy, the dashboard uses mock/synthetic data. The mock dataset mirrors the real schema so you can safely demo the UI and validate interactions without exposing sensitive information.
 
 ## Prerequisites
 
