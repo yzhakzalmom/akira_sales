@@ -58,6 +58,8 @@ SALES_SHEET_PREVIEW_START_ROW = 5
 SALES_SHEET_PREVIEW_END_ROW = 15
 # Sales sheet cleaning variables
 SALES_SHEET_ROWS_DELETE_RANGE = range(4, 0, -1)
+# List of required suffixes to mantain in the sheet
+SALES_SHEET_REQUIRED_SUFFIXES = ['Vendas', 'Anúncios', 'Publicidade']
 
 # ============================================================================
 # ASSET DIRECTORY AND FILE NAMES
