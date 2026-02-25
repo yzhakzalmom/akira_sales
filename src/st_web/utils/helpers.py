@@ -56,7 +56,7 @@ def get_years() -> list[int]:
     # Update years list with years until today
     years_list += [str(year + 1) for year in range(years_list[0], today_year)]
 
-    return years_list
+    return years_list[::-1]
 
 # Return image as base64
 def image_to_base64(image_path):
