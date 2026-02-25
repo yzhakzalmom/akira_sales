@@ -2,6 +2,17 @@ from pathlib import Path
 from dotenv import load_dotenv
 import datetime
 import base64
+import pandas as pd
+
+def create_placeholder_df(columns_names: list[str]) -> pd.DataFrame:
+
+    # Create placeholder DataFrame
+    placeholder_df = pd.DataFrame(columns=columns_names)
+
+    # Add an empty line to the DataFrame
+    placeholder_df.loc[len(placeholder_df)] = None
+
+    return placeholder_df
 
 def get_akira_path():
     return Path(__file__).parents[3]
