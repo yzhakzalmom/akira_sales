@@ -7,7 +7,7 @@ from __future__ import annotations
 import pandas as pd
 from .general import render_date_input
 from st_web.services.save_data import save_uploaded_df
-from st_web.services.read_data import get_asset_dataframe, get_asset_text
+from st_web.services.read_data import get_asset_text
 from utils.constants import *
 from st_web.utils.helpers import create_placeholder_df
 
@@ -50,12 +50,15 @@ def render_costs_inputs(container, cost_type: str):
         pd.DataFrame: The edited dataframe with user input.
     """
     # Create empty dataframe template to be edited by user
-    empty_costs_df = create_placeholder_df(PLACEHOLDER_OTHER_COSTS_COLS)
+    empty_costs_df = create_placeholder_df(PLACEHOLDER_COLS[cost_type])
 
     # Cast 'Descrição' column to string type
     empty_costs_df[COL_DESCRICAO] = empty_costs_df[COL_DESCRICAO].astype(str)
-    # Cast 'Incluir no Lucro' column to bool type
-    empty_costs_df[COL_INCLUIR_LUCRO] = empty_costs_df[COL_INCLUIR_LUCRO].astype(bool)
+
+    # Guarantee execution only for other costs
+    if (cost_type == ADLS_CATEGORY_OTHER_COSTS):
+        # Cast 'Incluir no Lucro' column to bool type
+        empty_costs_df[COL_INCLUIR_LUCRO] = empty_costs_df[COL_INCLUIR_LUCRO].astype(bool)
 
     # Render data editor and get the edited dataframe
     final_costs_df = container.data_editor(empty_costs_df, num_rows=DATA_EDITOR_NUM_ROWS, key=cost_type, hide_index=True)
