@@ -12,7 +12,7 @@ def create_placeholder_df(columns_names: list[str]) -> pd.DataFrame:
     # Add an empty line to the DataFrame
     placeholder_df.loc[len(placeholder_df)] = None
 
-    return placeholder_df
+    return placeholder_df.reset_index(drop=True)
 
 def get_akira_path():
     return Path(__file__).parents[3]

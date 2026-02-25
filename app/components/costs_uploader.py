@@ -58,7 +58,7 @@ def render_costs_inputs(container, cost_type: str):
     empty_costs_df[COL_INCLUIR_LUCRO] = empty_costs_df[COL_INCLUIR_LUCRO].astype(bool)
 
     # Render data editor and get the edited dataframe
-    final_costs_df = container.data_editor(empty_costs_df, num_rows=DATA_EDITOR_NUM_ROWS, key=cost_type)
+    final_costs_df = container.data_editor(empty_costs_df, num_rows=DATA_EDITOR_NUM_ROWS, key=cost_type, hide_index=True)
 
     return final_costs_df
 
