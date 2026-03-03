@@ -1,5 +1,6 @@
 from st_web.utils.helpers import get_months, get_years
 from utils.constants import *
+from datetime import datetime
 
 # key: unique id that must be different for each selectbox
 def render_date_input(container, key: str) -> tuple:
@@ -10,8 +11,9 @@ def render_date_input(container, key: str) -> tuple:
     # Render month column
     with month_col:
         # Render month selectbox
+        last_month_index = datetime.now().month - 2
         months = get_months()
-        chosen_month = container.selectbox(DATE_INPUT_MONTH_LABEL, list(months.keys()), key=f'{MONTH_KEY_PREFIX}{key}')
+        chosen_month = container.selectbox(DATE_INPUT_MONTH_LABEL, list(months.keys()), key=f'{MONTH_KEY_PREFIX}{key}', index=last_month_index)
 
     # Render year column
     with year_col:
