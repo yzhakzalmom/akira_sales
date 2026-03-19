@@ -4,6 +4,14 @@ import datetime
 import base64
 import pandas as pd
 
+# Clear tmp folder after used
+def clear_tmp_folder():
+    
+    for file_info in dbutils.fs.ls(DBFS_TMP_PATH):
+        dbutils.fs.rm(file_info.path)
+
+    dbutils.fs.rm(DBFS_TMP_PATH)
+
 def create_placeholder_df(columns_names: list[str]) -> pd.DataFrame:
 
     # Create placeholder DataFrame
@@ -25,6 +33,14 @@ def get_asset_file_path(asset_type: str, file_name: str) -> str:
     asset_file_path = get_app_path() / 'assets' / asset_type / file_name
 
     return asset_file_path
+
+# Get year and month parameters passed to a notebook
+def get_year_month_params():
+
+    year = dbutils.widgets.get("year")
+    month = dbutils.widgets.get("month")
+
+    return year, month
 
 # Load environment variables from .env file in project root
 def load_env_file():
