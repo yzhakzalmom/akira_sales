@@ -43,7 +43,7 @@ def generate_save_return_message(folder_path: str, month: str, year: str, save_t
     return return_message
 
 def get_akira_path():
-    return Path(__file__).parents[3]
+    return Path(__file__).parents[2]
 
 def get_app_path():
     return get_akira_path() / 'app'
