@@ -1,20 +1,12 @@
 from __future__ import annotations
 
-# ========== FIX IMPORTS =============
-
+import os
 import pandas as pd
+from io import BytesIO
 from openpyxl import load_workbook
 from .ADLSClient import ADLSClient
+from utils.helpers import get_asset_file_path
 from utils.constants import *
-from st_web.utils.helpers import get_asset_file_path
-from __future__ import annotations
-
-import os
-import pyspark.pandas as ps
-from io import BytesIO
-from databricks.sdk.runtime import dbutils
-from utils.constants import *
-from dbc.utils.helpers import get_filename_from_folder
 
 # Create ADLS connection object
 adls_client = ADLSClient()
@@ -41,10 +33,11 @@ def get_asset_text(text_file_name: str) -> str:
 # Get the name of a folder's only file
 def get_filename_from_folder(path:str) -> str:
 
-    # Return the first file name in the folder
-    for file_info in dbutils.fs.ls(path):
-        return file_info.name
-    
+    # # Return the first file name in the folder
+    # for file_info in dbutils.fs.ls(path):
+    #     return file_info.name
+    pass
+
 # Return df bytes by saving in memory without saving in disk
 def get_df_bytes(df: pd.DataFrame) -> bytes:
 

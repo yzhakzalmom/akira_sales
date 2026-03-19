@@ -1,6 +1,6 @@
-import pyspark.pandas as ps
+import pandas as pd
 
-def identify_sale_products(sales_df: ps.DataFrame, product_costs_dict: ps.DataFrame) -> ps.DataFrame:
+def identify_sale_products(sales_df: pd.DataFrame, product_costs_dict: pd.DataFrame) -> pd.DataFrame:
     
     # Create list to store the rows of products_per_sale_df
     rows = []
@@ -34,4 +34,4 @@ def identify_sale_products(sales_df: ps.DataFrame, product_costs_dict: ps.DataFr
             })
 
     # Return products per sale dataframe
-    return ps.DataFrame(rows)
+    return pd.DataFrame(rows)

@@ -1,16 +1,19 @@
 from pathlib import Path
 from dotenv import load_dotenv
+from utils.constants import *
+from services.check_data import check_data_folder_exists
 import datetime
 import base64
 import pandas as pd
 
-# Clear tmp folder after used
+# # Clear tmp folder after used
 def clear_tmp_folder():
     
-    for file_info in dbutils.fs.ls(DBFS_TMP_PATH):
-        dbutils.fs.rm(file_info.path)
+    # for file_info in dbutils.fs.ls(DBFS_TMP_PATH):
+    #     dbutils.fs.rm(file_info.path)
 
-    dbutils.fs.rm(DBFS_TMP_PATH)
+    # dbutils.fs.rm(DBFS_TMP_PATH)
+    pass
 
 def create_placeholder_df(columns_names: list[str]) -> pd.DataFrame:
 
@@ -49,12 +52,12 @@ def get_asset_file_path(asset_type: str, file_name: str) -> str:
     return asset_file_path
 
 # Get year and month parameters passed to a notebook
-def get_year_month_params():
+# def get_year_month_params():
 
-    year = dbutils.widgets.get("year")
-    month = dbutils.widgets.get("month")
+#     year = dbutils.widgets.get("year")
+#     month = dbutils.widgets.get("month")
 
-    return year, month
+#     return year, month
 
 # Load environment variables from .env file in project root
 def load_env_file():
