@@ -1,4 +1,14 @@
 from __future__ import annotations
+from io import BytesIO
+from databricks.sdk.runtime import dbutils
+from utils.constants import *
+from dbc.utils.helpers import clear_tmp_folder
+import os
+import pyspark.pandas as ps
+from utils.helpers import generate_save_return_message
+from services.read_data import get_df_bytes, get_sheet_bytes
+
+from __future__ import annotations
 from .check_data import check_data_folder_exists
 from .ADLSClient import ADLSClient
 from io import BytesIO
@@ -6,54 +16,11 @@ from utils.constants import *
 import pandas as pd
 import openpyxl
 
-# ========================
-# GENERAL
-# ========================
-
 # Create ADLS connection object
 adls_client = ADLSClient()
 
-# # Generate message to be return when a file is saved
-# def generate_save_return_message(folder_path: str, month: str, year: str, save_type: str) -> str:
-#     # Create file already exist message
-#     file_exists_message = MSG_FILE_EXISTS_TEMPLATE.format(save_type=save_type, month=month, year=year)
-
-#     # Create return message
-#     return_message = 'Upload bem sucedido!'
-
-#     # Update return message if file already exists
-#     return_message = (file_exists_message + return_message) if check_data_folder_exists(folder_path) else return_message
-
-#     # Return the final message
-#     return return_message
-
-# Return df bytes by saving in memory without saving in disk
-def get_df_bytes(df: pd.DataFrame) -> bytes:
-
-    # Save df to buffer to get df bytes
-    buffer = BytesIO()
-    # Convert DataFrame to parquet format in memory
-    df.to_parquet(buffer, index=False)
-    # Get bytes from buffer
-    df_bytes = buffer.getvalue()
-
-    # Return the bytes
-    return BytesIO(df_bytes)
-
-# Convert openpyxl workbook to BytesIO object
-def get_sheet_bytes(wb: openpyxl.workbook.workbook.Workbook) -> bytes:
-
-    # Save sheet to buffer to get sheet bytes
-    buffer = BytesIO()
-    # Save workbook to buffer
-    wb.save(buffer)
-    # Get bytes from buffer
-    sheet_bytes = buffer.getvalue()
-    # After using the workbook, it is necessary to close it
-    wb.close()
-
-    # Return BytesIO object with sheet bytes
-    return BytesIO(sheet_bytes)
+# Get env variable
+ADLS_CONTAINER = os.getenv('ADLS_CONTAINER')
 
 # ========================
 # TO BRONZE

@@ -22,6 +22,20 @@ def create_placeholder_df(columns_names: list[str]) -> pd.DataFrame:
 
     return placeholder_df.reset_index(drop=True)
 
+# Generate message to be return when a file is saved
+def generate_save_return_message(folder_path: str, month: str, year: str, save_type: str) -> str:
+    # Create file already exist message
+    file_exists_message = MSG_FILE_EXISTS_TEMPLATE.format(save_type=save_type, month=month, year=year)
+
+    # Create return message
+    return_message = 'Upload bem sucedido!'
+
+    # Update return message if file already exists
+    return_message = (file_exists_message + return_message) if check_data_folder_exists(folder_path) else return_message
+
+    # Return the final message
+    return return_message
+
 def get_akira_path():
     return Path(__file__).parents[3]
 

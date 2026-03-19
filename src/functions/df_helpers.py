@@ -1,7 +1,7 @@
-from __future__ import annotations
+import pandas as pd
 
 # Change '.' for ',' in float columns
-def replace_decimal_character(df: pyspark.pandas.DataFrame) -> pyspark.pandas.DataFrame:
+def replace_decimal_character(df: pd.DataFrame) -> pd.DataFrame:
 
     # For each column
     for column in df.columns:

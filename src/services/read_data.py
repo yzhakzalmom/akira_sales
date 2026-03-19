@@ -44,31 +44,34 @@ def get_filename_from_folder(path:str) -> str:
     # Return the first file name in the folder
     for file_info in dbutils.fs.ls(path):
         return file_info.name
-
-# ===== FROM DBC =====
-# # Read Excel sheet from ADLS layer and return as openpyxl workbook
-# def read_sheet(layer: str, year: str, month: str):
-#     from openpyxl import load_workbook
     
-#     # Construct the file path using layer, year, and month
-#     path = f'{ADLS_CONTAINER}{layer}/{ADLS_CATEGORY_SALES}/{year}/{month}'
+# Return df bytes by saving in memory without saving in disk
+def get_df_bytes(df: pd.DataFrame) -> bytes:
 
-#     # Get desired sheet's name
-#     file_name = get_filename_from_folder(path)
+    # Save df to buffer to get df bytes
+    buffer = BytesIO()
+    # Convert DataFrame to parquet format in memory
+    df.to_parquet(buffer, index=False)
+    # Get bytes from buffer
+    df_bytes = buffer.getvalue()
 
-#     # Create tmp folder
-#     dbutils.fs.mkdirs(DBFS_TMP_PATH)
+    # Return the bytes
+    return BytesIO(df_bytes)
 
-#     # Copy sheet to tmp folder
-#     dbutils.fs.cp(
-#         f'{path}/{file_name}',
-#         DBFS_TMP_PATH
-#     )
+# Convert openpyxl workbook to BytesIO object
+def get_sheet_bytes(wb: openpyxl.workbook.workbook.Workbook) -> bytes:
 
-#     tmp_sheet_path = f'../tmp/{file_name}'
+    # Save sheet to buffer to get sheet bytes
+    buffer = BytesIO()
+    # Save workbook to buffer
+    wb.save(buffer)
+    # Get bytes from buffer
+    sheet_bytes = buffer.getvalue()
+    # After using the workbook, it is necessary to close it
+    wb.close()
 
-#     # Return the openpyxl workbook
-#     return load_workbook(tmp_sheet_path)
+    # Return BytesIO object with sheet bytes
+    return BytesIO(sheet_bytes)
 
 # ===== FROM ST_WEB =====
 # Read Excel sheet from ADLS layer and return as openpyxl workbook
