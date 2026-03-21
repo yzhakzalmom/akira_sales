@@ -130,6 +130,9 @@ MSG_RUN_STARTED = 'Execução iniciada com sucesso!'
 MSG_RUN_ERROR = 'Erro na execução'
 MSG_CHECK_RUN_ERROR = 'Não foi possível checar as execuções ativas'
 MSG_ACTIVE_RUN = 'Não é possível executar, há uma execução ativa no momento.'
+MSG_MONTH_PARAM_NOT_FOUND = 'Parâmetro de Mês ausente'
+MSG_YEAR_PARAM_NOT_FOUND = 'Parâmetro de Ano ausente'
+MSG_SUCCESSFUL_MONTH_CLOSING = 'Fechamento de mês bem sucedido!'
 
 # Message template for file replacement
 MSG_FILE_EXISTS_TEMPLATE = (

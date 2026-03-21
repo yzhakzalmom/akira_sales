@@ -1,7 +1,8 @@
 import azure.functions as func
-import logging
-from features.monthly_pipeline import bp as monthly_automation_bp
+from features.monthly_executions import bp as monthly_executions_bp
 
+# Create funcion app object
 app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
 
-app.register_functions(monthly_automation_bp)
+# Register blueprint function in the function app
+app.register_functions(monthly_executions_bp)
