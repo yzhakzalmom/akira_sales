@@ -11,7 +11,7 @@ wheels/
 .uv/
 
 # IDE
-.vscode/
+
 .idea/
 *.swp
 *.swo
