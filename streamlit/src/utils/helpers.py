@@ -1,0 +1,111 @@
+from pathlib import Path
+from dotenv import load_dotenv
+from utils.constants import *
+import datetime
+import base64
+import pandas as pd
+
+# # Clear tmp folder after used
+def clear_tmp_folder():
+    
+    # for file_info in dbutils.fs.ls(DBFS_TMP_PATH):
+    #     dbutils.fs.rm(file_info.path)
+
+    # dbutils.fs.rm(DBFS_TMP_PATH)
+    pass
+
+def create_placeholder_df(columns_names: list[str]) -> pd.DataFrame:
+
+    # Create placeholder DataFrame
+    placeholder_df = pd.DataFrame(columns=columns_names)
+
+    # Add an empty line to the DataFrame
+    placeholder_df.loc[len(placeholder_df)] = None
+
+    return placeholder_df.reset_index(drop=True)
+
+# Generate message to be return when a file is saved
+def generate_save_return_message(folder_path: str, month: str, year: str, save_type: str) -> str:
+
+    # Bring this import to this function to avoid circular import in this helpers file
+    from services.check_data import check_data_folder_exists
+
+    # Create file already exist message
+    file_exists_message = MSG_FILE_EXISTS_TEMPLATE.format(save_type=save_type, month=month, year=year)
+
+    # Create return message
+    return_message = 'Upload bem sucedido!'
+
+    # Update return message if file already exists
+    return_message = (file_exists_message + return_message) if check_data_folder_exists(folder_path) else return_message
+
+    # Return the final message
+    return return_message
+
+def get_akira_path():
+    return Path(__file__).parents[2]
+
+def get_app_path():
+    return get_akira_path() / 'app'
+
+def get_asset_file_path(asset_type: str, file_name: str) -> str:
+    # Build asset file path
+    asset_file_path = get_app_path() / 'assets' / asset_type / file_name
+
+    return asset_file_path
+
+# Get year and month parameters passed to a notebook
+# def get_year_month_params():
+
+#     year = dbutils.widgets.get("year")
+#     month = dbutils.widgets.get("month")
+
+#     return year, month
+
+# Load environment variables from .env file in project root
+def load_env_file():
+    # Get path to .env file in project root
+    env_path = get_akira_path() / '.env'
+    
+    # Load .env file if it exists
+    load_dotenv(dotenv_path=env_path)
+    
+    return env_path
+
+# Return dict in the shape {month_name: month_number}
+def get_months() -> dict:
+
+    months = {
+    "janeiro": '01',
+    "fevereiro": '02',
+    "março": '03',
+    "abril": '04',
+    "maio": '05',
+    "junho": '06',
+    "julho": '07',
+    "agosto": '08',
+    "setembro": '09',
+    "outubro": '10',
+    "novembro": '11',
+    "dezembro": '12'
+    }
+
+    return months
+
+# Return list containing every year since 2025
+def get_years() -> list[int]:
+    # Create year list containt 2025
+    years_list = [2025]
+
+    # Get today year
+    today_year = datetime.datetime.now().year
+
+    # Update years list with years until today
+    years_list += [str(year + 1) for year in range(years_list[0], today_year)]
+
+    return years_list[::-1]
+
+# Return image as base64
+def image_to_base64(image_path):
+    with open(image_path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
