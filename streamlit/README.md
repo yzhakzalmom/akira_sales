@@ -98,12 +98,14 @@ akira_sales/
 1. **Clone the repository** (if applicable):
    ```bash
    git clone https://github.com/yzhakzalmom/akira_sales.git
-   cd akira_sales
+   cd akira_sales/streamlit
    ```
 
 2. **Install dependencies using uv**:
    ```bash
+   uv venv
    uv run pip install -e .
+   source .venv/Scripts/activate
    ```
 
 3. **Configure environment variables**:
