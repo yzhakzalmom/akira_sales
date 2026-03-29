@@ -6,7 +6,7 @@ import pandas as pd
 from .general import render_date_input
 from services.read_data import get_asset_text
 from services.check_data import check_data_folder_exists
-from services.jobs import trigger_job, check_active_run
+from services.jobs import trigger_job
 from utils.constants import *
 
 def render_trigger_button(container, month: str, year: str):
@@ -18,16 +18,9 @@ def render_trigger_button(container, month: str, year: str):
         month: Month string for the job execution.
         year: Year string for the job execution.
     """
-    # Only render button if there are no active runs
-    if not check_active_run(container):
-        # On button click, trigger the job
-        if container.button(MSG_TRIGGER_JOB, width=COMPONENTS_WIDTH):
-
-            # Prevent a new job triggered using the same button
-            if not check_active_run(container):
-                trigger_job(container, month, year)
-            else:
-                container.error(MSG_ACTIVE_RUN, icon=ICON_ERROR)
+    # On button click, trigger the job
+    if container.button(MSG_TRIGGER_JOB, width=COMPONENTS_WIDTH):
+        trigger_job(container, month, year)
 
 def render_files_confirmation(container, month: str, year: str):
     """
