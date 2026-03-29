@@ -8,19 +8,24 @@ from services.read_data import get_asset_text
 from services.check_data import check_data_folder_exists
 from services.jobs import trigger_job
 from utils.constants import *
+import streamlit as st
 
 def render_trigger_button(container, month: str, year: str):
-    """
-    Render a button to trigger the Databricks job if no active runs exist.
-    
-    Args:
-        container: Streamlit container object for rendering UI components.
-        month: Month string for the job execution.
-        year: Year string for the job execution.
-    """
-    # On button click, trigger the job
-    if container.button(MSG_TRIGGER_JOB, width=COMPONENTS_WIDTH):
-        trigger_job(container, month, year)
+
+    # Initialize state if it doesn't exist
+    if 'job_running' not in st.session_state:
+        st.session_state.job_running = False
+
+    if st.session_state.job_running:
+        # Show status while job runs
+        with st.spinner(MSG_JOB_RUNNING):
+            trigger_job(container, month, year)
+            st.session_state.job_running = False
+    else:
+        # Render trigger button
+        if container.button(MSG_TRIGGER_JOB, width=COMPONENTS_WIDTH):
+            st.session_state.job_running = True
+            st.rerun()  # Re run to render spinner
 
 def render_files_confirmation(container, month: str, year: str):
     """
