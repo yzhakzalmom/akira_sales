@@ -13,7 +13,6 @@ adls_client = ADLSClient()
 
 # Get env variables
 ADLS_CONTAINER = os.getenv('ADLS_CONTAINER')
-DBFS_TMP_PATH = os.getenv('DBFS_TMP_PATH')
 
 # ===== FROM ST_WEB =====
 # Read text file from assets folder
@@ -84,8 +83,11 @@ def read_sheet(layer: str, year: str, month: str):
 def read_tabular(layer: str, category: str, year: str, month: str):
 
     # Construct the file path using layer, category, year, and month
-    path = f'{layer}/{category}/{year}/{month}'
-
+    # Define path according to the existance of month parameter
+    path_month = f'{layer}/{category}/{year}/{month}'
+    path_monthless = f'{layer}/{category}/{year}'
+    path = path_monthless if not month else path_month
+    
     # Read the parquet file from ADLS as bytes
     parquet_bytes = adls_client.read_folder(path)
 

@@ -6,7 +6,7 @@ Handles UI components for uploading products costs and other costs data.
 from __future__ import annotations
 import pandas as pd
 from .general import render_date_input
-from services.save_data import save_uploaded_df
+from services.save_data import save_df
 from services.read_data import get_asset_text
 from utils.constants import *
 from utils.helpers import create_placeholder_df
@@ -27,7 +27,14 @@ def render_uploader_button(container, costs_df: pd.DataFrame, cost_type: str, mo
 
         try: # to save costs dataframe
             # Get save message from save operation
-            message = save_uploaded_df(costs_df, cost_type, month, year)
+            message = save_df(
+                costs_df,
+                layer=ADLS_LAYER_BRONZE,
+                category=cost_type,
+                year=year,
+                month=month,
+                file_prefix= f'{RAW_FILE_PREFIX}_{COSTS_FILE_PREFIX}'
+            )
 
             # Render success message
             container.success(message, icon=ICON_SUCCESS)
@@ -61,7 +68,7 @@ def render_costs_inputs(container, cost_type: str):
         empty_costs_df[COL_INCLUIR_LUCRO] = empty_costs_df[COL_INCLUIR_LUCRO].astype(bool)
 
     # Render data editor and get the edited dataframe
-    final_costs_df = container.data_editor(empty_costs_df, num_rows=DATA_EDITOR_NUM_ROWS, key=cost_type, hide_index=True)
+    final_costs_df = container.data_editor(empty_costs_df, num_rows=COSTS_DATA_EDITOR_NUM_ROWS, key=cost_type, hide_index=True)
 
     return final_costs_df
 

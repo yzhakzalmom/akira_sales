@@ -4,7 +4,7 @@ Allows users to define parameters for inputs and execution.
 """
 
 import streamlit as st
-from components import header
+from components import header, taxes_setting
 from utils.constants import *
 
 # Configure page settings
@@ -24,5 +24,5 @@ _, main_col, __ = config_container.columns(CONFIG_PAGE_COLUMN_LAYOUT)
 central_container = main_col.container()
 
 # Render job execution interface within the column
-# with main_col:
-    # jobs_execution.render_execution_trigger(central_container)
+with main_col:
+    taxes_setting.render_taxes_settings(central_container)
