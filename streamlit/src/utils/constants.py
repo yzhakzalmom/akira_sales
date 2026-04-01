@@ -88,10 +88,17 @@ BLACK_LOGO_FILE_NAME = 'black_logo.png'
 MAIN_PAGE_TITLE = 'Akira ~ Uploads'
 MAIN_PAGE_LAYOUT = 'wide'
 MAIN_PAGE_HEADER = 'Uploads de Arquivos'
+MAIN_PAGE_COLUMN_LAYOUT = [1, 4, 1]
 
 JOBS_PAGE_TITLE = 'Akira ~ Execuções'
 JOBS_PAGE_LAYOUT = 'wide'
 JOBS_PAGE_HEADER = 'Execuções - Fechamento de Mês'
+JOBS_PAGE_COLUMN_LAYOUT = [1, 4, 1]
+
+CONFIG_PAGE_TITLE = 'Akira ~ Opções'
+CONFIG_PAGE_LAYOUT = 'wide'
+CONFIG_PAGE_HEADER = 'Opções - Parâmetros e Predefinições'
+CONFIG_PAGE_COLUMN_LAYOUT = [1, 4, 1]
 
 SALES_UPLOADER_HEADER = 'Planilha de Vendas 📈'
 SALES_PREVIEW_SUBHEADER = 'Prévia do arquivo'
@@ -105,9 +112,6 @@ JOB_FILE_CONF_SUBHEADER = 'Confirmação de arquivos'
 DATE_INPUT_MONTH_LABEL = 'Mês do arquivo'
 DATE_INPUT_YEAR_LABEL = 'Ano do arquivo'
 
-
-MAIN_PAGE_COLUMN_LAYOUT = [1, 4, 1]
-JOBS_PAGE_COLUMN_LAYOUT = [1, 4, 1]
 DATE_INPUT_COLUMN_LAYOUT = [1, 1, 2]
 DATE_INPUT_COLUMN_GAP = 'medium'
 COMPONENTS_WIDTH = 'stretch'
@@ -152,8 +156,7 @@ SAVE_TYPE_CUSTOS = "custos"
 # ============================================================================
 ICON_SUCCESS = "✅"
 ICON_ERROR = "❌"
-ICON_MAIN_PAGE = '🥋'
-ICON_JOBS_PAGE = '🥋'
+MAIN_ICON = '🥋'
 
 # ============================================================================
 # UI COMPONENT KEYS

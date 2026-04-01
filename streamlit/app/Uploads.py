@@ -8,7 +8,7 @@ from components import header, sales_uploader, costs_uploader
 from utils.constants import *
 
 # Configure page settings
-st.set_page_config(page_title=MAIN_PAGE_TITLE, page_icon=ICON_MAIN_PAGE, layout=MAIN_PAGE_LAYOUT)
+st.set_page_config(page_title=MAIN_PAGE_TITLE, page_icon=MAIN_ICON, layout=MAIN_PAGE_LAYOUT)
 
 # Create main page container
 main_container = st.container()

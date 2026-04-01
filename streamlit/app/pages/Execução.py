@@ -8,7 +8,7 @@ from components import header, jobs_execution
 from utils.constants import *
 
 # Configure page settings
-st.set_page_config(page_title=JOBS_PAGE_TITLE, page_icon=ICON_JOBS_PAGE, layout=JOBS_PAGE_LAYOUT)
+st.set_page_config(page_title=JOBS_PAGE_TITLE, page_icon=MAIN_ICON, layout=JOBS_PAGE_LAYOUT)
 
 # Create main page container
 jobs_container = st.container()
