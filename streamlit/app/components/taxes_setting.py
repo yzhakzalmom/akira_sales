@@ -32,13 +32,17 @@ def render_taxes_button(container, taxes_df: pd.DataFrame, year: str):
 # Render data editor to input taxes information
 def render_taxes_inputs(container, year: str):
 
+    # Get months dict
+    months_dict = get_months()
+
     # Checks if taxes info already exists for the given year
     if not check_data_folder_exists(f'{ADLS_LAYER_CONFIG}/{ADLS_CATEGORY_TAXES}/{year}'):
 
         # Create taxes DataFrame with months name
         taxes_df = pd.DataFrame({
-            TAXES_COL_MES: get_months().keys(),
-            TAXES_COL_NUM_MES: get_months().values(),
+            TAXES_COL_MES: months_dict.keys(),
+            TAXES_COL_NUM_MES: months_dict.values(),
+            TAXES_COL_YEAR: [year] * 12,
             TAXES_COL_PCT: None,
             TAXES_COL_OBS: None
         })
@@ -60,7 +64,8 @@ def render_taxes_inputs(container, year: str):
             step=0.1,
             format="%.1f %%",
         ),
-        TAXES_COL_NUM_MES: None
+        TAXES_COL_NUM_MES: None,
+        TAXES_COL_YEAR: None
     }
 
     # Render data editor
