@@ -25,4 +25,4 @@ RUN uv run pip install -e .
 EXPOSE 8501
 
 # Run Streamlit app
-CMD ["uv", "run", "streamlit", "run", "app/Home.py"]
+CMD ["uv", "run", "streamlit", "run", "app/Uploads.py"]

@@ -38,6 +38,7 @@ def render_taxes_inputs(container, year: str):
         # Create taxes DataFrame with months name
         taxes_df = pd.DataFrame({
             TAXES_COL_MES: get_months().keys(),
+            TAXES_COL_NUM_MES: get_months().values(),
             TAXES_COL_PCT: None,
             TAXES_COL_OBS: None
         })
@@ -58,11 +59,12 @@ def render_taxes_inputs(container, year: str):
             max_value=TAXES_PCT_COL_MAX,
             step=0.1,
             format="%.1f %%",
-        )
+        ),
+        TAXES_COL_NUM_MES: None
     }
 
     # Render data editor
-    taxes_df = container.data_editor(taxes_df, num_rows=TAXES_DATA_EDITOR_NUM_ROWS, disabled=[TAXES_COL_MES], key=TAXES_SETTINGS_FILE_NAME, hide_index=True, column_config=column_config)
+    taxes_df = container.data_editor(taxes_df, num_rows=TAXES_DATA_EDITOR_NUM_ROWS, disabled=[TAXES_COL_MES], key=TAXES_SETTINGS_FILE_NAME, hide_index=True, column_config=column_config, height=TAXES_DATA_EDITOR_HEIGHT)
     
     return taxes_df
 
