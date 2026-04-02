@@ -57,7 +57,7 @@ def clean_sales(year:str, month:str):
             sales_df = sales_df.drop(col, axis=1)
 
     # Drop more unnecessary columns
-    columns_to_drop = ['Descrição_do_status_Vendas', 'Pacote_de_diversos_produtos_Vendas', 'Pertence_a_um_kit_Vendas', 'SKU_Anúncios', '#_de_anúncio_Anúncios', 'Canal_de_venda_Anúncios', 'Receita_por_acréscimo_no_preço_(pago_pelo_comprador)_Vendas', 'Taxa_de_parcelamento_equivalente_ao_acréscimo_Vendas']
+    columns_to_drop = ['Descrição_do_status_Vendas', 'Pacote_de_diversos_produtos_Vendas', 'Pertence_a_um_kit_Vendas', 'SKU_Anúncios', '#_de_anúncio_Anúncios', 'Canal_de_venda_Anúncios', 'Receita_por_acréscimo_no_preço_(pago_pelo_comprador)_Vendas', 'Taxa_de_parcelamento_equivalente_ao_acréscimo_Vendas', 'Depósito_Vendas', 'Custo_de_envio_com_base_nas_medidas_e_peso_declarados_Vendas', 'Descontos_e_bônus_Vendas']
     sales_df = sales_df.drop(columns_to_drop, axis=1)
 
     # Rename columns
