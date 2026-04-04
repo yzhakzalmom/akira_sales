@@ -1,6 +1,6 @@
 import pandas as pd
 from .ADLSClient import ADLSClient
-from src.utils.constants import *
+from utils.constants import *
 
 # Checks if the sales sheet pattern is correct and return sheet preview
 def check_sales_sheet_format(sales_sheet) -> None:

@@ -2,8 +2,10 @@ from src.functions.df_helpers import replace_decimal_character
 from src.services.read_data import read_tabular, read_sheet
 from src.services.save_data import save_df, save_sheet
 from src.services.treat_data import identify_sale_products
+from src.utils.helpers import get_months
 from src.utils.constants import *
 from unidecode import unidecode
+import pandas as pd
 
 def treat_sales_sheet(year:str, month: str):
 
@@ -159,3 +161,55 @@ def identify_products(year:str, month:str):
     # Save dataframes
     save_df(other_costs_df, ADLS_LAYER_GOLD, ADLS_CATEGORY_OTHER_COSTS, year, month)
     save_df(products_per_sale_df, ADLS_LAYER_GOLD, ADLS_CATEGORY_PRODUCTS_PER_SALE, year, month)
+
+def calculate_taxes(year:str, month:str):
+
+    # Read sales DataFrame, select and rename columns, and fill na
+    sales_df = read_tabular(layer=ADLS_LAYER_SILVER, category=ADLS_CATEGORY_SALES, year=year, month=month)
+    sales_df = sales_df[['Data_da_venda_Vendas', 'Receita_por_produtos_(BRL)_Vendas', 'Cancelamentos_e_reembolsos_(BRL)_Vendas']]
+    sales_df.columns = ['data_venda', 'receita_por_produtos', 'cancelamentos_reembolsos']
+    sales_df = sales_df.fillna(0)
+
+    # Remove hour from date info and split date into day, month and year to convert month name to number and then convert to datetime format
+    sales_df['data_venda'] = sales_df['data_venda'].str[:-10]
+    date_series = sales_df['data_venda'].str.split(r'\bde\b')
+
+    # Get month dictionary
+    month_dict = get_months()
+
+    # Convert date to datetime format
+    for i in range(len(date_series)):
+        date_series[i] = date_series[i][0].strip() + '-' + month_dict[date_series[i][1].strip()] + '-' + date_series[i][2].strip()
+
+    # Assign converted date back to dataframe and convert to datetime
+    sales_df['data_venda'] = date_series
+    sales_df['data_venda'] = pd.to_datetime(sales_df['data_venda'], format='%d-%m-%Y')
+
+    # Create year-month column to be able to merge with taxes dataframe
+    sales_df['ano_mes'] = sales_df['data_venda'].dt.year * 100 + sales_df['data_venda'].dt.month
+
+    # Calculate gross revenue of the invoice by adding revenue by products and cancellations/reimbursements (as they are negative values)
+    sales_df['fat_bruto_nf'] = sales_df['receita_por_produtos'] + sales_df['cancelamentos_reembolsos']
+
+    # Read taxes dataframe
+    taxes_df = read_tabular(layer=ADLS_LAYER_CONFIG, category=ADLS_CATEGORY_TAXES, year='2026', month=None)
+
+    # Create year-month column to be able to merge with sales dataframe
+    taxes_df['ano_mes'] = (taxes_df['ano'].astype(int) * 100) + taxes_df['num_mes'].astype(int)
+
+    # Rename columns
+    taxes_df = taxes_df.rename(columns={
+        'Imposto (%)': 'valor_imposto',
+        'Mês': 'mes',
+        'Observação': 'observacao'
+    })
+
+    # Convert tax percentage to decimal
+    taxes_df['valor_imposto'] = taxes_df['valor_imposto'] / 100
+
+    # Merge sales and taxes dataframes and calculate estimated tax by multiplying gross revenue of the invoice by the tax percentage
+    sales_taxes_df = sales_df.merge(taxes_df[['ano_mes', 'valor_imposto']], on='ano_mes', how='left').fillna(0)
+    sales_taxes_df['imposto_estimado'] = sales_taxes_df['fat_bruto_nf'] * sales_taxes_df['valor_imposto']
+
+    # Save dataframe with estimated tax per sale
+    save_df(sales_taxes_df, layer=ADLS_LAYER_GOLD, category=ADLS_CATEGORY_TAX_PER_SALE, year=year, month=month)

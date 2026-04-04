@@ -27,6 +27,7 @@ def run_month_closing(req: func.HttpRequest) -> func.HttpResponse:
         treat_sales_sheet(year, month) # 1
         clean_sales(year, month) # 2
         identify_products(year, month) # 3
+        calculate_taxes(year, month) # 4
 
         # Return http response indicating success
         return func.HttpResponse(MSG_SUCCESSFUL_MONTH_CLOSING, status_code=200)

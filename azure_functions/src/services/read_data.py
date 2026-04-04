@@ -5,11 +5,14 @@ import pandas as pd
 from io import BytesIO
 from openpyxl import load_workbook
 from .ADLSClient import ADLSClient
-from src.utils.helpers import get_asset_file_path
-from src.utils.constants import *
+from utils.helpers import get_asset_file_path
+from utils.constants import *
 
 # Create ADLS connection object
 adls_client = ADLSClient()
+
+# Get env variables
+ADLS_CONTAINER = os.getenv('ADLS_CONTAINER')
 
 # ===== FROM ST_WEB =====
 # Read text file from assets folder
@@ -80,9 +83,11 @@ def read_sheet(layer: str, year: str, month: str):
 def read_tabular(layer: str, category: str, year: str, month: str):
 
     # Construct the file path using layer, category, year, and month
-    print(f'{layer}/{category}/{year}/{month}')
-    path = f'{layer}/{category}/{year}/{month}'
-
+    # Define path according to the existance of month parameter
+    path_month = f'{layer}/{category}/{year}/{month}'
+    path_monthless = f'{layer}/{category}/{year}'
+    path = path_monthless if not month else path_month
+    
     # Read the parquet file from ADLS as bytes
     parquet_bytes = adls_client.read_folder(path)
 
