@@ -192,7 +192,7 @@ def calculate_taxes(year:str, month:str):
     sales_df['fat_bruto_nf'] = sales_df['receita_por_produtos'] + sales_df['cancelamentos_reembolsos']
 
     # Read taxes dataframe
-    taxes_df = read_tabular(layer=ADLS_LAYER_CONFIG, category=ADLS_CATEGORY_TAXES, year='2026', month=None)
+    taxes_df = read_tabular(layer=ADLS_LAYER_CONFIG, category=ADLS_CATEGORY_TAXES, year=year, month=None)
 
     # Create year-month column to be able to merge with sales dataframe
     taxes_df['ano_mes'] = (taxes_df['ano'].astype(int) * 100) + taxes_df['num_mes'].astype(int)
