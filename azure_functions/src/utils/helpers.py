@@ -28,7 +28,7 @@ def create_placeholder_df(columns_names: list[str]) -> pd.DataFrame:
 def generate_save_return_message(folder_path: str, month: str, year: str, save_type: str) -> str:
 
     # Bring this import to this function to avoid circular import in this helpers file
-    from services.check_data import check_data_folder_exists
+    from src.services.check_data import check_data_folder_exists
 
     # Create file already exist message
     file_exists_message = MSG_FILE_EXISTS_TEMPLATE.format(save_type=save_type, month=month, year=year)
