@@ -123,11 +123,28 @@ CONFIG_PAGE_LAYOUT = 'wide'
 CONFIG_PAGE_HEADER = 'Opções - Parâmetros e Predefinições'
 CONFIG_PAGE_COLUMN_LAYOUT = [1, 4, 1]
 
+## TAXES SETTINGS
 TAXES_SETTINGS_HEADER = 'Imposto Mensal 🏦'
 TAXES_DATA_EDITOR_NUM_ROWS = 'fixed'
 TAXES_DATA_EDITOR_HEIGHT = 'content'
 TAXES_PCT_COL_MIN = 1
 TAXES_PCT_COL_MAX = 100
+
+## COSTS_SETTINGS
+COSTS_SELECTBOX_DICT = {
+    ADLS_CATEGORY_PRODUCTS_COSTS: ['STR', 'AKAI', 'FEM', 'RON', 'FX'],
+    ADLS_CATEGORY_OTHER_COSTS: [
+        'Automação - Yzhak',
+        'Manutenção Site e PowerBI - Yzhak',
+        'Publicidade',
+        'Salário - Pedro',
+        'Etiquetas',
+        'Luz',
+        'Gás',
+        'Frete',
+        'Embalagens'
+    ]
+}
 
 # DATE INPUT
 DATE_INPUT_MONTH_LABEL = 'Mês do arquivo'
