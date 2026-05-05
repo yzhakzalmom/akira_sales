@@ -63,7 +63,7 @@ def clean_sales(year:str, month:str):
     sales_df = sales_df.drop(columns_to_drop, axis=1)
 
     # Rename columns
-    new_names = ['id_venda', 'data_venda', 'status_venda', 'unidades_vendidas', 'receita_por_produto', 'tarifas_impostos_venda', 'receita_envio', 'tarifa_envio', 'custo_envio', 'diff_custo_envio', 'cancelamentos_reembolsos', 'total_vendas', 'mes_faturamento_tarifas', 'venda_publicidade', 'titulo_anuncio', 'variacao_anuncio', 'preco_unitario_anuncio', 'tipo_anuncio', 'reclamacao_encerrada']
+    new_names = ['id_venda', 'data_venda', 'status_venda', 'unidades_vendidas', 'receita_por_produto', 'tarifas_impostos_venda', 'receita_envio', 'tarifa_envio', 'custo_envio', 'diff_custo_envio', 'cancelamentos_reembolsos', 'total_vendas', 'mes_faturamento_tarifas', 'pedido_compra', 'venda_publicidade', 'titulo_anuncio', 'variacao_anuncio', 'preco_unitario_anuncio', 'tipo_anuncio', 'reclamacao_encerrada']
     sales_df.columns = new_names
 
     # Fill na in column total_vendas and cancelamentos_reembolsos
