@@ -80,6 +80,28 @@ SALES_SHEET_PREVIEW_END_ROW = 15
 SALES_SHEET_ROWS_DELETE_RANGE = range(4, 0, -1)
 # List of required suffixes to mantain in the sheet
 SALES_SHEET_REQUIRED_SUFFIXES = ['Vendas', 'Anúncios', 'Publicidade']
+# Sales sheet columns mapping
+SALES_SHEET_COLUMNS_MAPPING = {
+    'N.º_de_venda_Vendas': 'id_venda',
+    'Data_da_venda_Vendas': 'data_venda',
+    'Estado_Vendas': 'status_venda',
+    'Unidades_Vendas': 'unidades_vendidas',
+    'Receita_por_produtos_(BRL)_Vendas': 'receita_por_produto',
+    'Tarifa_de_venda_e_impostos_(BRL)_Vendas': 'tarifas_impostos_venda',
+    'Receita_por_envio_(BRL)_Vendas': 'receita_envio',
+    'Tarifas_de_envio_(BRL)_Vendas': 'tarifa_envio',
+    'Custo_de_envio_por_troca_de_produto_Vendas': 'custo_envio',
+    'Custo_por_diferenças_nas_medidas_e_no_peso_do_pacote_Vendas': 'diff_custo_envio',
+    'Cancelamentos_e_reembolsos_(BRL)_Vendas': 'cancelamentos_reembolsos',
+    'Total_(BRL)_Vendas': 'total_vendas',
+    'Mês_de_faturamento_das_suas_tarifas_Vendas': 'mes_faturamento_tarifas',
+    'Venda_por_publicidade_Publicidade': 'venda_publicidade',
+    'Título_do_anúncio_Anúncios': 'titulo_anuncio',
+    'Variação_Anúncios': 'variacao_anuncio',
+    'Preço_unitário_de_venda_do_anúncio_(BRL)_Anúncios': 'preco_unitario_anuncio',
+    'Tipo_de_anúncio_Anúncios': 'tipo_anuncio',
+    'Reclamação_encerrada_Reclamações': 'reclamacao_encerrada',
+}
 
 # ============================================================================
 # ASSET DIRECTORY AND FILE NAMES

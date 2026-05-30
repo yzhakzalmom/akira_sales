@@ -46,25 +46,14 @@ def clean_sales(year:str, month:str):
     # Read excel and transform to DataFrame
     sales_df = read_tabular(ADLS_LAYER_SILVER, ADLS_CATEGORY_SALES, year, month)
 
-    # Create tuple of required column suffixes
-    required_suffixes = tuple(SALES_SHEET_REQUIRED_SUFFIXES)
+    # Variable that holds column renaming map
+    rename_map = SALES_SHEET_COLUMNS_MAPPING
 
-    # Define list of dataframe columns and remove 'Reclamação_encerrada_Reclamações' from the list as it is an exception to the defined rule and will be needed
-    df_columns = list(sales_df.columns)
-    df_columns.remove('Reclamação_encerrada_Reclamações')
+    # Select columns from sales_df
+    sales_df = sales_df[list(rename_map.keys())]
 
-    # Remove unnecessary columns by suffix
-    for col in df_columns:
-        if not col.endswith(required_suffixes):
-            sales_df = sales_df.drop(col, axis=1)
-
-    # Drop more unnecessary columns
-    columns_to_drop = ['Descrição_do_status_Vendas', 'Pacote_de_diversos_produtos_Vendas', 'Pertence_a_um_kit_Vendas', 'SKU_Anúncios', '#_de_anúncio_Anúncios', 'Canal_de_venda_Anúncios', 'Receita_por_acréscimo_no_preço_(pago_pelo_comprador)_Vendas', 'Taxa_de_parcelamento_equivalente_ao_acréscimo_Vendas', 'Depósito_Vendas', 'Custo_de_envio_com_base_nas_medidas_e_peso_declarados_Vendas', 'Descontos_e_bônus_Vendas']
-    sales_df = sales_df.drop(columns_to_drop, axis=1)
-
-    # Rename columns
-    new_names = ['id_venda', 'data_venda', 'status_venda', 'unidades_vendidas', 'receita_por_produto', 'tarifas_impostos_venda', 'receita_envio', 'tarifa_envio', 'custo_envio', 'diff_custo_envio', 'cancelamentos_reembolsos', 'total_vendas', 'mes_faturamento_tarifas', 'venda_publicidade', 'titulo_anuncio', 'variacao_anuncio', 'preco_unitario_anuncio', 'tipo_anuncio', 'reclamacao_encerrada']
-    sales_df.columns = new_names
+    # Rename columns using rename_map
+    sales_df = sales_df.rename(columns=rename_map)
 
     # Fill na in column total_vendas and cancelamentos_reembolsos
     sales_df['total_vendas'] = sales_df['total_vendas'].fillna(0)
