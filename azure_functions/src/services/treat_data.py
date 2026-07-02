@@ -18,7 +18,7 @@ def identify_sale_products(sales_df: pd.DataFrame, product_costs_dict: pd.DataFr
         elif ('ronin' in ad_title):
             product_list.append('RON')
         else:
-            product_list.append('STR')
+            product_list.append('STR/BZ')
         
         # Each product may or not have a belt with it
         if 'faixa' in ad_title:
