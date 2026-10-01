@@ -16,9 +16,10 @@ def treat_sales_sheet(year:str, month: str):
     sales_ws = sales_wb.active
 
     # Remove initial rows that prevent correct reading
-    # Delete from bottom to top to avoid index issues
-    for row_num in SALES_SHEET_ROWS_DELETE_RANGE:
-        sales_ws.delete_rows(row_num)
+    for row in sales_ws.iter_rows(min_col=1, max_col=1):
+        if row[0].value == 'Vendas':
+            sales_ws.delete_rows(1, row[0].row - 1)
+            break
 
     # Change column names by adding their header
     # Find the last column with data in row 2 (was row 1 in 0-indexed)
