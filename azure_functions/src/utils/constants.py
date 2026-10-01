@@ -83,7 +83,7 @@ SALES_SHEET_REQUIRED_SUFFIXES = ['Vendas', 'Anúncios', 'Publicidade']
 # Sales sheet columns mapping
 SALES_SHEET_COLUMNS_MAPPING = {
     'N.º_de_venda_Vendas': 'id_venda',
-    'Data_da_venda_Vendas': 'data_venda',
+    'Data_de_venda_Vendas': 'data_venda',
     'Estado_Vendas': 'status_venda',
     'Unidades_Vendas': 'unidades_vendidas',
     'Receita_por_produtos_(BRL)_Vendas': 'receita_por_produto',

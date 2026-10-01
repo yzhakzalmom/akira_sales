@@ -156,7 +156,7 @@ def calculate_taxes(year:str, month:str):
 
     # Read sales DataFrame, select and rename columns, and fill na
     sales_df = read_tabular(layer=ADLS_LAYER_SILVER, category=ADLS_CATEGORY_SALES, year=year, month=month)
-    sales_df = sales_df[['Data_da_venda_Vendas', 'Receita_por_produtos_(BRL)_Vendas', 'Cancelamentos_e_reembolsos_(BRL)_Vendas']]
+    sales_df = sales_df[['Data_de_venda_Vendas', 'Receita_por_produtos_(BRL)_Vendas', 'Cancelamentos_e_reembolsos_(BRL)_Vendas']]
     sales_df.columns = ['data_venda', 'receita_por_produtos', 'cancelamentos_reembolsos']
     sales_df = sales_df.fillna(0)
 
