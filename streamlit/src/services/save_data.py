@@ -79,21 +79,28 @@ def save_sheet(wb: openpyxl.workbook.workbook.Workbook, month: str, year: str):
 # Save df in ADLS as parquet
 # DataFrame -> Parquet bytes -> ADLS
 # save_uploaded_df(df: pd.DataFrame, cost_type:str, month: str, year: str)
-def save_df(df: pd.DataFrame, layer: str, category: str, year: str, month: str, file_prefix: str = None):
+def save_df(df: pd.DataFrame, layer: str, category: str, year: str = None, month: str = None, file_prefix: str = None):
     
     # Define file prefix if None
     file_prefix = category if not file_prefix else file_prefix
 
-    # Define path according to the month parameter
-    path_month = f'{layer}/{category}/{year}/{month}/{file_prefix}_{year}_{month}{TABULAR_STD_EXTENSION}'
-    path_monthless = f'{layer}/{category}/{year}/{file_prefix}_{year}{TABULAR_STD_EXTENSION}'
-    path = path_monthless if not month else path_month
+    # Define path according to the month and year parameters
+    if year is None:
+        path = f'{layer}/{category}/{file_prefix}{TABULAR_STD_EXTENSION}'
+    else:
+        path_month = f'{layer}/{category}/{year}/{month}/{file_prefix}_{year}_{month}{TABULAR_STD_EXTENSION}'
+        path_monthless = f'{layer}/{category}/{year}/{file_prefix}_{year}{TABULAR_STD_EXTENSION}'
+        path = path_monthless if not month else path_month
 
     # Get df parquet bytes
     parquet_bytes = get_df_bytes(df)
 
     # Generate message concerning the upload
-    message = generate_save_return_message(path, month, year, category.replace('_', ' ').title())
+    message = (
+        MSG_UPLOAD_SUCCESS
+        if year is None
+        else generate_save_return_message(path, month, year, category.replace('_', ' ').title())
+    )
 
     # Upload parquet bytes to adls
     adls_client.upload(path, parquet_bytes)
