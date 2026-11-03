@@ -6,6 +6,12 @@ from services.save_data import save_df
 from utils.constants import *
 
 
+PRODUCTS_STORAGE_COLUMNS = {
+    column: column.lower().replace(' ', '_')
+    for column in PRODUCTS_COLS
+}
+
+
 def render_products_button(container, products_df: pd.DataFrame):
     if container.button(
         MSG_SEND_INFO,
@@ -14,7 +20,7 @@ def render_products_button(container, products_df: pd.DataFrame):
     ):
         try:
             message = save_df(
-                products_df,
+                products_df.rename(columns=PRODUCTS_STORAGE_COLUMNS),
                 layer=ADLS_LAYER_CONFIG,
                 category=ADLS_CATEGORY_PRODUCTS,
             )
@@ -31,6 +37,9 @@ def render_products_inputs(container):
         products_df = read_tabular(
             layer=ADLS_LAYER_CONFIG,
             category=ADLS_CATEGORY_PRODUCTS,
+        )
+        products_df = products_df.rename(
+            columns={stored: display for display, stored in PRODUCTS_STORAGE_COLUMNS.items()}
         )
         products_df = products_df[PRODUCTS_COLS]
     else:
