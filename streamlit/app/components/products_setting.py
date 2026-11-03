@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 from services.check_data import check_data_folder_exists
-from services.read_data import read_tabular
+from services.read_data import get_asset_text, read_tabular
 from services.save_data import save_df
 from utils.constants import *
 
@@ -46,16 +46,25 @@ def render_products_inputs(container):
         products_df = pd.DataFrame(columns=PRODUCTS_COLS)
         products_df.loc[0] = None
 
+    products_df = products_df.reset_index(drop=True)
+    products_df = products_df.astype('string')
+
     return container.data_editor(
         products_df,
         num_rows=PRODUCTS_DATA_EDITOR_NUM_ROWS,
         key=ADLS_CATEGORY_PRODUCTS,
         hide_index=True,
+        column_config={
+            column: st.column_config.TextColumn(column)
+            for column in PRODUCTS_COLS
+        },
     )
 
 
 def render_products_settings(container):
     settings_container = container.container()
     settings_container.header(PRODUCTS_SETTINGS_HEADER)
+    settings_container.markdown(get_asset_text(PRODUCTS_SETTINGS_FILE_NAME))
+    settings_container.caption(MSG_FILL_PRODUCTS)
     products_df = render_products_inputs(settings_container)
     render_products_button(settings_container, products_df)

@@ -96,6 +96,7 @@ ASSET_TYPE_ICONS = "icons"
 SALES_UPLOADER_TEXT_FILE_NAME = 'sales_uploader'
 JOBS_EXECUTION_TEXT_FILE_NAME = 'job_execution'
 TAXES_SETTINGS_FILE_NAME = 'taxes_settings'
+PRODUCTS_SETTINGS_FILE_NAME = 'products_settings'
 
 WHITE_LOGO_FILE_NAME = 'white_logo.png'
 BLACK_LOGO_FILE_NAME = 'black_logo.png'
@@ -135,7 +136,7 @@ TAXES_DATA_EDITOR_NUM_ROWS = 'fixed'
 TAXES_DATA_EDITOR_HEIGHT = 'content'
 TAXES_PCT_COL_MIN = 1
 TAXES_PCT_COL_MAX = 100
-PRODUCTS_SETTINGS_HEADER = 'Produtos 🛍️'
+PRODUCTS_SETTINGS_HEADER = 'Produtos 🥋'
 PRODUCTS_DATA_EDITOR_NUM_ROWS = 'dynamic'
 
 ## COSTS_SETTINGS
@@ -185,6 +186,7 @@ MSG_MONTH_PARAM_NOT_FOUND = 'Parâmetro de Mês ausente'
 MSG_YEAR_PARAM_NOT_FOUND = 'Parâmetro de Ano ausente'
 MSG_SUCCESSFUL_MONTH_CLOSING = 'Fechamento de mês bem sucedido!'
 MSG_FILL_TAXES = 'Preencha o imposto em cada mês'
+MSG_FILL_PRODUCTS = 'Preencha o nome, a sigla e a palavra-chave de cada produto'
 
 # Message template for file replacement
 MSG_FILE_EXISTS_TEMPLATE = (
