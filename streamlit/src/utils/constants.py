@@ -19,6 +19,7 @@ ADLS_CATEGORY_PRODUCTS_COSTS = "products_costs"
 ADLS_CATEGORY_OTHER_COSTS = "other_costs"
 ADLS_CATEGORY_PRODUCTS_PER_SALE = 'products_per_sale'
 ADLS_CATEGORY_TAXES = 'taxes'
+ADLS_CATEGORY_PRODUCTS = 'products'
 # ============================================================================
 # FILE PATTERNS AND NAMING
 # ============================================================================
@@ -51,6 +52,11 @@ TAXES_COL_PCT = 'Imposto (%)'
 TAXES_COL_OBS = 'Observação'
 TAXES_COL_YEAR = 'ano'
 TAXES_COLS = [TAXES_COL_NUM_MES, TAXES_COL_MES, TAXES_COL_PCT, TAXES_COL_OBS, TAXES_COL_YEAR]
+
+PRODUCT_COL_NAME = 'Nome'
+PRODUCT_COL_ABBREVIATION = 'Sigla'
+PRODUCT_COL_KEYWORD = 'Palavra Chave'
+PRODUCTS_COLS = [PRODUCT_COL_NAME, PRODUCT_COL_ABBREVIATION, PRODUCT_COL_KEYWORD]
 
 PLACEHOLDER_PRODUCTS_COSTS_COLS = [COL_DESCRICAO, COL_CUSTO]
 PRODUCTS_COSTS_COLS = [COL_DESCRICAO, COL_CUSTO, COL_MES, COL_ANO]
@@ -90,6 +96,7 @@ ASSET_TYPE_ICONS = "icons"
 SALES_UPLOADER_TEXT_FILE_NAME = 'sales_uploader'
 JOBS_EXECUTION_TEXT_FILE_NAME = 'job_execution'
 TAXES_SETTINGS_FILE_NAME = 'taxes_settings'
+PRODUCTS_SETTINGS_FILE_NAME = 'products_settings'
 
 WHITE_LOGO_FILE_NAME = 'white_logo.png'
 BLACK_LOGO_FILE_NAME = 'black_logo.png'
@@ -129,6 +136,8 @@ TAXES_DATA_EDITOR_NUM_ROWS = 'fixed'
 TAXES_DATA_EDITOR_HEIGHT = 'content'
 TAXES_PCT_COL_MIN = 1
 TAXES_PCT_COL_MAX = 100
+PRODUCTS_SETTINGS_HEADER = 'Produtos 🥋'
+PRODUCTS_DATA_EDITOR_NUM_ROWS = 'dynamic'
 
 ## COSTS_SETTINGS
 COSTS_SELECTBOX_DICT = {
@@ -177,6 +186,7 @@ MSG_MONTH_PARAM_NOT_FOUND = 'Parâmetro de Mês ausente'
 MSG_YEAR_PARAM_NOT_FOUND = 'Parâmetro de Ano ausente'
 MSG_SUCCESSFUL_MONTH_CLOSING = 'Fechamento de mês bem sucedido!'
 MSG_FILL_TAXES = 'Preencha o imposto em cada mês'
+MSG_FILL_PRODUCTS = 'Preencha o nome, a sigla e a palavra-chave de cada produto'
 
 # Message template for file replacement
 MSG_FILE_EXISTS_TEMPLATE = (
