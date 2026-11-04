@@ -16,6 +16,7 @@ ADLS_LAYER_CONFIG = 'config'
 
 ADLS_CATEGORY_SALES = "sales"
 ADLS_CATEGORY_PRODUCTS_COSTS = "products_costs"
+ADLS_CATEGORY_PRODUCTS = "products"
 ADLS_CATEGORY_OTHER_COSTS = "other_costs"
 ADLS_CATEGORY_PRODUCTS_PER_SALE = 'products_per_sale'
 ADLS_CATEGORY_TAXES = 'taxes'
@@ -45,6 +46,10 @@ COL_MES = "Mês"
 COL_ANO = "Ano"
 COL_CUSTO = "Custo"
 COL_INCLUIR_LUCRO = "Incluir no Lucro"
+
+PRODUCT_COL_NAME = 'nome'
+PRODUCT_COL_ABBREVIATION = 'sigla'
+PRODUCT_COL_KEYWORD = 'palavra_chave'
 
 TAXES_COL_MES = 'Mês'
 TAXES_COL_NUM_MES = 'num_mes'

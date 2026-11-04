@@ -80,13 +80,19 @@ def read_sheet(layer: str, year: str, month: str):
 
 # ===== FROM ST_WEB =====
 # Read tabular file from ADLS layer and return as DataFrame
-def read_tabular(layer: str, category: str, year: str, month: str):
+def read_tabular(
+    layer: str,
+    category: str,
+    year: str | None = None,
+    month: str | None = None,
+):
 
-    # Construct the file path using layer, category, year, and month
-    # Define path according to the existance of month parameter
-    path_month = f'{layer}/{category}/{year}/{month}'
-    path_monthless = f'{layer}/{category}/{year}'
-    path = path_monthless if not month else path_month
+    if year is None:
+        path = f'{layer}/{category}'
+    elif month is None:
+        path = f'{layer}/{category}/{year}'
+    else:
+        path = f'{layer}/{category}/{year}/{month}'
     
     # Read the parquet file from ADLS as bytes
     parquet_bytes = adls_client.read_folder(path)

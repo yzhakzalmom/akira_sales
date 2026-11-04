@@ -37,7 +37,7 @@ def render_files_confirmation(container, month: str, year: str):
         year: Year string to check files for.
     
     Returns:
-        bool: True if all required files exist (sales, products costs, other costs), False otherwise.
+        bool: True if all required files exist (sales, product costs, other costs, product settings), False otherwise.
     """
     # Display subheader for file confirmation section
     container.write(JOB_FILE_CONF_SUBHEADER)
@@ -46,18 +46,19 @@ def render_files_confirmation(container, month: str, year: str):
     sales_exist = check_data_folder_exists(f'{ADLS_LAYER_BRONZE}/{ADLS_CATEGORY_SALES}/{year}/{month}')
     products_costs_exist = check_data_folder_exists(f'{ADLS_LAYER_BRONZE}/{ADLS_CATEGORY_PRODUCTS_COSTS}/{year}/{month}')
     other_costs_exist = check_data_folder_exists(f'{ADLS_LAYER_BRONZE}/{ADLS_CATEGORY_OTHER_COSTS}/{year}/{month}')
+    products_config_exist = check_data_folder_exists(f'{ADLS_LAYER_CONFIG}/{ADLS_CATEGORY_PRODUCTS}')
 
     # Create dataframe to display file existence status
     check_files_df = pd.DataFrame({
-        'Arquivo': ['Vendas', 'Custos de Produtos', 'Outros Custos'],
-        'Existe': [sales_exist, products_costs_exist, other_costs_exist]
+        'Arquivo': ['Vendas', 'Custos de Produtos', 'Outros Custos', 'Configuração de Produtos'],
+        'Existe': [sales_exist, products_costs_exist, other_costs_exist, products_config_exist]
     })
 
     # Display the dataframe in the container
     container.dataframe(check_files_df)
 
     # Return True only if all required files exist
-    return (sales_exist and products_costs_exist and other_costs_exist)
+    return (sales_exist and products_costs_exist and other_costs_exist and products_config_exist)
 
 def render_execution_trigger(container):
     """

@@ -111,6 +111,7 @@ def identify_products(year:str, month:str):
     sales_df = read_tabular(ADLS_LAYER_GOLD, ADLS_CATEGORY_SALES, year, month)
     products_costs_df = read_tabular(ADLS_LAYER_BRONZE, ADLS_CATEGORY_PRODUCTS_COSTS, year, month)
     other_costs_df = read_tabular(ADLS_LAYER_BRONZE, ADLS_CATEGORY_OTHER_COSTS, year, month)
+    products_df = read_tabular(ADLS_LAYER_CONFIG, ADLS_CATEGORY_PRODUCTS)
 
     # # Create normalized column names
     # normalized_columns_names = [unidecode(col_name.lower()) for col_name in PRODUCTS_COSTS_COLS]
@@ -138,7 +139,7 @@ def identify_products(year:str, month:str):
 
     # Iterate through sales DataFrame to identify products in each sale
     # Create products per sale dataframe
-    products_per_sale_df = identify_sale_products(sales_df, product_costs_dict)
+    products_per_sale_df = identify_sale_products(sales_df, product_costs_dict, products_df)
 
     # Save DataFrames
     # Apply decimal character correction to each dataframe
