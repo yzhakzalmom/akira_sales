@@ -76,19 +76,27 @@ By using Parquet, the pipeline achieves better performance, lower storage costs,
 ## Project Structure
 
 ```
-akira_sales/
-├── app/                    # Streamlit application
-│   ├── components/         # Reusable UI components
-│   ├── pages/              # Streamlit pages
-│   └── Home.py            # Main application entry point
-├── src/                    # Source code
-│   ├── services/           # Business logic and ADLS integration
-│   ├── utils/              # Utility functions and constants
-│   └── functions/          # Helper functions
-├── pyproject.toml          # Project dependencies and metadata
-├── Dockerfile              # Docker image configuration
-├── docker-compose.yml      # Docker Compose configuration
-└── .dockerignore           # Docker ignore patterns
+streamlit/
+├── app/
+│   ├── Home.py                 # Login gate and navigation
+│   ├── assets/
+│   │   ├── icons/
+│   │   └── texts/
+│   ├── components/             # Reusable UI components
+│   └── views/                  # uploads, opcoes, execucao
+├── scripts/
+│   ├── render_secrets.py       # Builds .streamlit/secrets.toml
+│   └── run.sh                  # Starts the app
+├── src/
+│   ├── services/               # ADLS client, jobs, read, save, treat
+│   └── utils/                  # Constants and helpers
+├── test/
+├── .dockerignore
+├── .env.example
+├── Dockerfile
+├── docker-compose.yml
+├── pyproject.toml
+└── README.md
 ```
 
 ## Installation
@@ -113,7 +121,7 @@ akira_sales/
 
 4. **Run the application**:
    ```bash
-   uv run streamlit run app/Home.py
+   ./scripts/run.sh
    ```
 
 5. **Access the application**:
@@ -238,7 +246,7 @@ The application required environment variables are described in `.env.example`
 
 If port 8501 is already in use, you can change the port in the Streamlit command:
 ```bash
-uv run streamlit run app/Home.py --server.port 8502
+./scripts/run.sh --server.port 8502
 ```
 
 Or modify the port mapping in `docker-compose.yml`:
@@ -267,7 +275,7 @@ If you're having trouble connecting to Azure ADLS:
 
 1. Create a feature branch
 2. Make your changes
-3. Test locally using `uv run streamlit run app/Home.py`
+3. Test locally using `./scripts/run.sh`
 4. Submit a pull request
 
 ## Support

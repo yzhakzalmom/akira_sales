@@ -16,6 +16,7 @@ RUN pip install uv
 COPY pyproject.toml ./
 COPY src ./src
 COPY app ./app
+COPY scripts ./scripts
 COPY README.md ./
 
 # Install the project and its dependencies using uv
@@ -25,4 +26,5 @@ RUN uv run pip install -e .
 EXPOSE 8501
 
 # Run Streamlit app
-CMD ["uv", "run", "streamlit", "run", "app/Uploads.py"]
+RUN chmod +x scripts/run.sh
+CMD ["./scripts/run.sh"]

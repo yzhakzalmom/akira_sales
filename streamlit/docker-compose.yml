@@ -7,5 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: akira-sales
     image: streamlit-app:v1
+    env_file:
+      - .env
     ports:
       - "8081:8501"

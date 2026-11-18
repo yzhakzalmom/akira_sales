@@ -34,3 +34,4 @@ mock/
 # Environment variables
 .env
 .env.local
+.streamlit/secrets.toml

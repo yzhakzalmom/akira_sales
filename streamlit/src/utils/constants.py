@@ -187,6 +187,13 @@ MSG_YEAR_PARAM_NOT_FOUND = 'Parâmetro de Ano ausente'
 MSG_SUCCESSFUL_MONTH_CLOSING = 'Fechamento de mês bem sucedido!'
 MSG_FILL_TAXES = 'Preencha o imposto em cada mês'
 MSG_FILL_PRODUCTS = 'Preencha o nome, a sigla e a palavra-chave de cada produto'
+LOGIN_HEADER = 'Entrar'
+LOGIN_BUTTON = 'Entrar com a Microsoft'
+LOGOUT_BUTTON = 'Sair'
+MSG_AUTH_TENANTS_MISSING = (
+    'A lista de tenants permitidos não está configurada. '
+    'Defina ENTRA_ALLOWED_TENANT_IDS.'
+)
 
 # Message template for file replacement
 MSG_FILE_EXISTS_TEMPLATE = (
