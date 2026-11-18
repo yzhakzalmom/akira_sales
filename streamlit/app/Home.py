@@ -89,12 +89,54 @@ if st.user.is_logged_in and user_claim("tid") not in allowed:
     st.stop()
 
 if not st.user.is_logged_in:
-    login_container = st.container()
-    header.render_header(login_container, LOGIN_HEADER)
-    _, login_col, __ = login_container.columns(MAIN_PAGE_COLUMN_LAYOUT)
-    with login_col:
-        if st.button(LOGIN_BUTTON):
-            st.login()
+    st.markdown(
+        """
+        <style>
+        [data-testid="stMain"] [data-testid="stElementContainer"]:has(.stButton) {
+            width: 100%;
+        }
+        [data-testid="stMain"] div.stButton {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 0.25rem;
+        }
+        [data-testid="stMain"] div.stButton > button,
+        [data-testid="stMain"] div.stButton > button:hover,
+        [data-testid="stMain"] div.stButton > button:focus,
+        [data-testid="stMain"] div.stButton > button:active {
+            width: fit-content;
+            padding-left: 1.6rem;
+            padding-right: 1.6rem;
+            background-color: var(--akira-login-bg, #111111);
+            color: var(--akira-login-fg, #ffffff);
+            border: 1px solid var(--akira-login-bg, #111111);
+        }
+        [data-testid="stMain"] div.stButton > button:hover {
+            background-color: var(--akira-login-hover, #333333);
+            border-color: var(--akira-login-hover, #333333);
+            color: var(--akira-login-fg, #ffffff);
+        }
+        [data-testid="stMain"] div.stButton > button:focus {
+            box-shadow: 0 0 0 0.2rem var(--akira-login-bg, #111111);
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.markdown("<div style='height: 4vh;'></div>", unsafe_allow_html=True)
+    header.render_header(st, LOGIN_HEADER, logo_width=120)
+    st.markdown(
+        (
+            "<p style='text-align: center; font-size: 0.9rem; "
+            "line-height: 1.45; opacity: 0.8; max-width: 34rem; "
+            "margin: 0 auto 0.75rem;'>"
+            f"{LOGIN_HELP}</p>"
+        ),
+        unsafe_allow_html=True,
+    )
+    if st.button(LOGIN_BUTTON):
+        st.login()
     st.stop()
 
 with st.sidebar:

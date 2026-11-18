@@ -189,6 +189,11 @@ MSG_FILL_TAXES = 'Preencha o imposto em cada mês'
 MSG_FILL_PRODUCTS = 'Preencha o nome, a sigla e a palavra-chave de cada produto'
 LOGIN_HEADER = 'Entrar'
 LOGIN_BUTTON = 'Entrar com a Microsoft'
+LOGIN_HELP = (
+    'O acesso usa a conta Microsoft da empresa. '
+    'Ao continuar, você vai para a página de login da Microsoft '
+    'e retorna aqui depois de autenticar.'
+)
 LOGOUT_BUTTON = 'Sair'
 MSG_AUTH_TENANTS_MISSING = (
     'A lista de tenants permitidos não está configurada. '
