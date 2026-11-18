@@ -98,16 +98,19 @@ def trigger_job(container, month: str, year: str):
         year: Year string to pass as job parameter.
     """
 
-    # Prepare job parameters payload
+    # Year and month stay in the query string. The function key goes in a
+    # header so a failed request cannot print it inside the URL.
     params = {
         'year': year,
         'month': month,
-        'code': azure_functions_code
     }
+    headers = {}
+    if azure_functions_code:
+        headers['x-functions-key'] = azure_functions_code
 
     try:
         # Make API request to trigger the job
-        response = requests.post(azure_functions_url, params=params)
+        response = requests.post(azure_functions_url, params=params, headers=headers)
 
         # Raise exception in case of error
         response.raise_for_status()
@@ -115,8 +118,8 @@ def trigger_job(container, month: str, year: str):
         # Display success message
         container.success(MSG_RUN_DONE, icon=ICON_SUCCESS)
     
-    except Exception as e:
-        # Display error message if job trigger fails
+    except Exception:
+        # Keep the raw exception off the page. Its URL and response can
+        # carry the storage account or the function error body.
         container.error(MSG_RUN_ERROR, icon=ICON_ERROR)
-        container.error(e, icon=ICON_ERROR)
 

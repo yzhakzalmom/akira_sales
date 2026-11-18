@@ -1,3 +1,5 @@
+import logging
+
 import azure.functions as func
 from src.etl.month_closing import *
 from src.utils.constants import *
@@ -32,13 +34,12 @@ def run_month_closing(req: func.HttpRequest) -> func.HttpResponse:
         # Return http response indicating success
         return func.HttpResponse(MSG_SUCCESSFUL_MONTH_CLOSING, status_code=200)
 
-    # Return http response indicating value error
-    except ValueError as e:
-        return func.HttpResponse(str(e), status_code=422)
+    # Fixed text only. Azure SDK errors can include the storage account
+    # and the client id, so the exception stays in the function log.
+    except ValueError:
+        logging.exception("Month closing rejected the request")
+        return func.HttpResponse(MSG_RUN_ERROR, status_code=422)
 
-    # Return http response indicating general errors
-    except Exception as e:
-        return func.HttpResponse(
-            f"Internal Error: {str(e)}",
-            status_code=500
-        )
+    except Exception:
+        logging.exception("Month closing failed")
+        return func.HttpResponse(MSG_RUN_ERROR, status_code=500)

@@ -11,11 +11,8 @@ def render_sheet_preview(container, sales_sheet):
         container.subheader(SALES_PREVIEW_SUBHEADER)
         container.dataframe(sales_preview_df)
 
-    except Exception as e:
-
-        # Render error message and description
+    except Exception:
         container.error(MSG_FILE_ERROR, icon=ICON_ERROR)
-        container.write(e)
 
 def render_uploader_button(container, sales_sheet, month: str, year: str):
 
@@ -30,10 +27,8 @@ def render_uploader_button(container, sales_sheet, month: str, year: str):
             # Render success message
             container.success(message, icon=ICON_SUCCESS)
 
-        except Exception as e:
-            # Render error message and description
+        except Exception:
             container.error(MSG_UPLOAD_ERROR, icon=ICON_ERROR)
-            container.write(e)
 
 def render_sales_uploader(container) -> None:
 

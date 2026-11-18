@@ -23,10 +23,8 @@ def render_taxes_button(container, taxes_df: pd.DataFrame, year: str):
             # Render success message
             container.success(message, icon=ICON_SUCCESS)
 
-        except Exception as e:
-            # Render error message and exception details
+        except Exception:
             container.error(MSG_UPLOAD_ERROR, icon=ICON_ERROR)
-            container.write(e)
 
 
 # Render data editor to input taxes information

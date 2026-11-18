@@ -98,7 +98,7 @@ def save_df(df: pd.DataFrame, layer: str, category: str, year: str = None, month
     # Generate message concerning the upload
     message = (
         MSG_UPLOAD_SUCCESS
-        if year is None
+        if (year is None) or (month is None)
         else generate_save_return_message(path, month, year, category.replace('_', ' ').title())
     )
 

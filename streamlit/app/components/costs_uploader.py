@@ -40,10 +40,8 @@ def render_uploader_button(container, costs_df: pd.DataFrame, cost_type: str, mo
             # Render success message
             container.success(message, icon=ICON_SUCCESS)
 
-        except Exception as e:
-            # Render error message and exception details
+        except Exception:
             container.error(MSG_UPLOAD_ERROR, icon=ICON_ERROR)
-            container.write(e)
 
 
 def render_costs_inputs(container, cost_type: str, month: str, year: str):

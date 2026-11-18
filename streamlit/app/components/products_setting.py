@@ -25,9 +25,8 @@ def render_products_button(container, products_df: pd.DataFrame):
                 category=ADLS_CATEGORY_PRODUCTS,
             )
             container.success(message, icon=ICON_SUCCESS)
-        except Exception as e:
+        except Exception:
             container.error(MSG_UPLOAD_ERROR, icon=ICON_ERROR)
-            container.write(e)
 
 
 def render_products_inputs(container):
