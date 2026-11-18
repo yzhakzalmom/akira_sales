@@ -10,4 +10,5 @@ services:
     env_file:
       - .env
     ports:
-      - "8081:8501"
+      - "8501:8501"
+    command: ["./scripts/run.sh", "--server.address=0.0.0.0", "--server.port=8501"]

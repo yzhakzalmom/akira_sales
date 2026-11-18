@@ -140,9 +140,9 @@ docker compose up --build
 This will:
 - Build the Docker image
 - Start the container
-- Expose the application on port `8081` (mapped to container port 8501)
+- Expose the application on port `8501` (mapped to container port 8501)
 
-Access the application at: `http://localhost:8081`
+Access the application at: `http://localhost:8501`
 
 ### Build Docker Image Manually
 
@@ -153,7 +153,7 @@ docker build -t streamlit-app:v1 .
 ### Run Docker Container
 
 ```bash
-docker run -p 8081:8501 streamlit-app:v1
+docker run -p 8501:8501 streamlit-app:v1
 ```
 
 ## Azure App Services Deployment

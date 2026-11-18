@@ -8,6 +8,7 @@ rendered here, and navigation is registered only after Microsoft sign-in.
 import os
 
 import streamlit as st
+from authlib.integrations.base_client.async_openid import AsyncOpenIDMixin
 from authlib.integrations.base_client.sync_openid import OpenIDMixin
 
 from components import header
@@ -25,25 +26,31 @@ def allowed_tenant_ids() -> set[str]:
     return {item.strip() for item in raw.split(",") if item.strip()}
 
 
-def _accept_allowed_tenant_issuers(parse_id_token):
+def _allowed_issuer_claims(metadata_issuer: object) -> dict | None:
     """Microsoft's organizations metadata publishes iss as the literal {tenantid}.
 
     Authlib compares that placeholder with the token issuer and rejects a real
     tenant URL. Accept the v2 issuer of each tenant in ENTRA_ALLOWED_TENANT_IDS.
     """
+    if not isinstance(metadata_issuer, str) or "{tenantid}" not in metadata_issuer:
+        return None
+    issuers = [
+        f"https://login.microsoftonline.com/{tenant_id}/v2.0"
+        for tenant_id in allowed_tenant_ids()
+    ]
+    if not issuers:
+        return None
+    return {"iss": {"values": issuers}}
 
+
+def _accept_allowed_tenant_issuers(parse_id_token):
     def parse_id_token_with_allowed_issuers(
         self, token, nonce, claims_options=None, claims_cls=None, leeway=120
     ):
         if claims_options is None:
-            metadata_issuer = self.load_server_metadata().get("issuer")
-            if isinstance(metadata_issuer, str) and "{tenantid}" in metadata_issuer:
-                issuers = [
-                    f"https://login.microsoftonline.com/{tenant_id}/v2.0"
-                    for tenant_id in allowed_tenant_ids()
-                ]
-                if issuers:
-                    claims_options = {"iss": {"values": issuers}}
+            claims_options = _allowed_issuer_claims(
+                self.load_server_metadata().get("issuer")
+            )
         return parse_id_token(
             self,
             token,
@@ -56,14 +63,40 @@ def _accept_allowed_tenant_issuers(parse_id_token):
     return parse_id_token_with_allowed_issuers
 
 
-_original_parse_id_token = getattr(
-    OpenIDMixin, "_akira_original_parse_id_token", OpenIDMixin.parse_id_token
-)
-OpenIDMixin._akira_original_parse_id_token = _original_parse_id_token
-OpenIDMixin.parse_id_token = _accept_allowed_tenant_issuers(_original_parse_id_token)
+def _accept_allowed_tenant_issuers_async(parse_id_token):
+    async def parse_id_token_with_allowed_issuers(
+        self, token, nonce, claims_options=None, claims_cls=None, leeway=120
+    ):
+        if claims_options is None:
+            metadata = await self.load_server_metadata()
+            claims_options = _allowed_issuer_claims(metadata.get("issuer"))
+        return await parse_id_token(
+            self,
+            token,
+            nonce,
+            claims_options=claims_options,
+            claims_cls=claims_cls,
+            leeway=leeway,
+        )
+
+    return parse_id_token_with_allowed_issuers
+
+
+def _patch_parse_id_token(mixin, wrapper):
+    original = getattr(
+        mixin, "_akira_original_parse_id_token", mixin.parse_id_token
+    )
+    mixin._akira_original_parse_id_token = original
+    mixin.parse_id_token = wrapper(original)
+
+
+# The OAuth callback runs in the Starlette server and uses the async client.
+# Patching only the sync mixin leaves that callback validating {tenantid}.
+_patch_parse_id_token(OpenIDMixin, _accept_allowed_tenant_issuers)
+_patch_parse_id_token(AsyncOpenIDMixin, _accept_allowed_tenant_issuers_async)
 
 st.set_page_config(
-    page_title=MAIN_PAGE_TITLE,
+    page_title=LOGIN_PAGE_TITLE,
     page_icon=MAIN_ICON,
     layout=MAIN_PAGE_LAYOUT,
 )

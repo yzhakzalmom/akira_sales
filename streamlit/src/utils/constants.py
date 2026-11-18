@@ -107,6 +107,7 @@ BLACK_LOGO_FILE_NAME = 'black_logo.png'
 
 # UPLOADS
 MAIN_PAGE_TITLE = 'Akira ~ Uploads'
+LOGIN_PAGE_TITLE = 'Akira ~ Login'
 MAIN_PAGE_LAYOUT = 'wide'
 MAIN_PAGE_HEADER = 'Uploads de Arquivos'
 MAIN_PAGE_COLUMN_LAYOUT = [1, 4, 1]
