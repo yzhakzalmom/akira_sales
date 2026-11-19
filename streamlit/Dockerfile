@@ -1,30 +1,32 @@
-# Use Python 3.10
-FROM python:3.10
+FROM python:3.10-slim-bookworm
 
-# Set working directory
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app/src
 
-# Install uv
-RUN pip install uv
+# Dependencies change less often than the app, so install them in their own layer.
+COPY pyproject.toml uv.lock ./
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-install-project --no-dev
 
-# Copy project files
-COPY pyproject.toml ./
+COPY README.md ./
 COPY src ./src
 COPY app ./app
 COPY scripts ./scripts
-COPY README.md ./
 
-# Install the project and its dependencies using uv
-RUN uv run pip install -e .
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev
 
-# Expose Streamlit port
+# `uv run` in the container should use the environment built above.
+ENV UV_NO_SYNC=1
+
+RUN chmod +x scripts/run.sh
+
 EXPOSE 8501
 
-# Run Streamlit app
-RUN chmod +x scripts/run.sh
 CMD ["./scripts/run.sh"]
