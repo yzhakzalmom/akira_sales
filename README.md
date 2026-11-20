@@ -184,40 +184,91 @@ docker run -p 8501:8501 streamlit-app:v1
 
 ## Azure Resources
 
-***streamlit/*** is deployed to **Azure App Services** for production hosting. The Dockerfile is optimized for Azure environments:
+***streamlit/*** runs on **Azure App Service** as a single container. Production images live in **Azure Container Registry**. A push to `main` that changes `streamlit/` builds `streamlit-app:<commit sha>`, pushes it, and points the Web App at that tag.
 
-- Listens on `0.0.0.0` for proper network binding
-- Exposes port 8501 for Streamlit
-- Uses multi-stage build approach with `uv` for efficient package management
+***azure_functions*** runs on **Azure Functions**. A push to `main` that changes `azure_functions/` publishes the whole Function App (Python v2, route `month-closing`).
 
-***azure_functions*** is deployed to **Azure Functins** for cloud functions executions
+The `v1` tag in `docker-compose.yml` is only for local runs. App Service does not track it.
 
-### Common steps
-1. **Login to Azure via Azure CLI**
-   ```bash
-   # This will open Microsoft Azure login in a web page
-   az login
-   ```
+### One-time Azure and GitHub setup
 
-1. **Connect with your Azure Container Registry
-   ```bash
-   az acr login --name <acr_name>
-   ```
+The workflows sign in with OpenID Connect. Create an app registration (or user-assigned managed identity) and a federated credential:
 
-### Deploy to Azure Container Registry
+- Issuer: `https://token.actions.githubusercontent.com`
+- Subject: `repo:yzhakzalmom/akira_sales:ref:refs/heads/main`
+- Audience: `api://AzureADTokenExchange`
 
-1. **Build and push the image to Azure Container Registry (ACR)**:
-   ```bash
-   az acr build --registry <your-registry-name> --image streamlit-app:v1 .
-   ```
+```bash
+az ad app federated-credential create \
+  --id <application-object-id> \
+  --parameters '{
+    "name": "github-main",
+    "issuer": "https://token.actions.githubusercontent.com",
+    "subject": "repo:yzhakzalmom/akira_sales:ref:refs/heads/main",
+    "audiences": ["api://AzureADTokenExchange"]
+  }'
+```
 
-1. **Alternatively, you can use VS Code extensions**
-   - Extensions: *Azure* and *Containers*
-   1. Build Docker Image (see *Docker Deployment*)
-   1. Double check your Azure extension login
-   1. Right click your image in *Containers > Image*
-   1. Click *Push...*
-   1. Select *Azure Subscription > Registry > Image name*
+Grant that identity `AcrPush` on the registry and `Website Contributor` on the Web App and the Function App.
+
+The Web App pulls images with its own managed identity. Leave the registry admin user disabled, and leave Deployment Center on **Single container** / **Azure Container Registry** with continuous deployment off. The portal option that generates a GitHub Actions workflow stays off; `.github/workflows/` is the only pipeline.
+
+```bash
+az webapp identity assign --name <webapp> --resource-group <rg>
+PRINCIPAL_ID=$(az webapp identity show --name <webapp> --resource-group <rg> --query principalId -o tsv)
+ACR_ID=$(az acr show --name <acr_name> --query id -o tsv)
+az role assignment create --assignee "$PRINCIPAL_ID" --role AcrPull --scope "$ACR_ID"
+az webapp config set \
+  --name <webapp> \
+  --resource-group <rg> \
+  --generic-configurations '{"acrUseManagedIdentityCreds": true}'
+az webapp config appsettings set \
+  --name <webapp> \
+  --resource-group <rg> \
+  --settings WEBSITES_PORT=8501
+```
+
+`WEBSITES_PORT` is required because Streamlit listens on 8501. Other runtime settings stay in the Web App and Function App application settings.
+
+The Function App runtime is Python 3.12. Remote build installs `azure_functions/requirements.txt`, which must stay aligned with `azure_functions/pyproject.toml`.
+
+GitHub repository secrets:
+
+- `AZURE_CLIENT_ID`
+- `AZURE_TENANT_ID`
+- `AZURE_SUBSCRIPTION_ID`
+
+GitHub repository variables:
+
+- `ACR_NAME` (short registry name)
+- `ACR_LOGIN_SERVER` (for example `myregistry.azurecr.io`)
+- `AZURE_WEBAPP_NAME`
+- `AZURE_RESOURCE_GROUP`
+- `AZURE_FUNCTIONAPP_NAME`
+
+### What runs on merge
+
+| Change on `main` | Workflow | Result |
+| --- | --- | --- |
+| `streamlit/**` | `.github/workflows/streamlit-acr.yml` | Push `streamlit-app:<sha>` and set that image on the Web App |
+| `azure_functions/**` | `.github/workflows/azure-functions.yml` | Publish the Function App with a remote build |
+
+App Service does not look up a new tag on its own. After the push, the Streamlit workflow runs `az webapp config container set`, so the portal image tag changes from the previous value to the commit SHA. To roll back, point the Web App at an older SHA that is still in the registry.
+
+### Build an image locally
+
+From `streamlit/`:
+
+```bash
+az acr login --name <acr_name>
+az acr build \
+  --registry <acr_name> \
+  --image streamlit-app:$(git rev-parse HEAD) \
+  --file Dockerfile \
+  .
+```
+
+That push does not update App Service. Point the Web App at the new tag yourself, or merge to `main` and let the workflow do it.
 
 ### Test Azure Functions
 
@@ -230,12 +281,6 @@ docker run -p 8501:8501 streamlit-app:v1
 2. **Make requests**
    - Use the url [http://localhost:7071/api/month-closing]
    - Use parameters `month` and `year`
-
-### Deploy to Azure App Services
-   - Configure Azure App Service to use the container image from ACR
-   - Set up continuous deployment (CD) for automatic updates
-   - Configure environment variables in Azure App Service settings
-   - Use Azure Portal or Azure CLI to deploy and manage the application
 
 #### Azure App Services Benefits
 

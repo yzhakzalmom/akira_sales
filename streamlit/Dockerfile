@@ -1,6 +1,6 @@
 FROM python:3.10-slim-bookworm
 
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.13.9 /uv /uvx /bin/
 
 WORKDIR /app
 
@@ -26,6 +26,10 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 ENV UV_NO_SYNC=1
 
 RUN chmod +x scripts/run.sh
+
+ENV STREAMLIT_SERVER_ADDRESS=0.0.0.0 \
+    STREAMLIT_SERVER_PORT=8501 \
+    STREAMLIT_SERVER_HEADLESS=true
 
 EXPOSE 8501
 

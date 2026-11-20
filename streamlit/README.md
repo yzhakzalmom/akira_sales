@@ -158,24 +158,19 @@ docker run -p 8501:8501 streamlit-app:v1
 
 ## Azure App Services Deployment
 
-This application is deployed to **Azure App Services** for production hosting. The Dockerfile is optimized for Azure environments:
+Production runs as a single container on App Service. A merge to `main` that changes this folder builds `streamlit-app:<commit sha>`, pushes it to Azure Container Registry, and points the Web App at that tag. The image listens on `0.0.0.0:8501`. The `v1` tag used by Docker Compose is local only.
 
-- Listens on `0.0.0.0` for proper network binding
-- Exposes port 8501 for Streamlit
-- Uses multi-stage build approach with `uv` for efficient package management
+Registry login, GitHub secrets, and the one-time Web App setup are documented in the repository [README](../README.md#azure-resources).
 
-### Deployment Steps
+To build from this directory without updating App Service:
 
-1. **Build and push the image to Azure Container Registry (ACR)**:
-   ```bash
-   az acr build --registry <your-registry-name> --image streamlit-app:v1 .
-   ```
-
-2. **Deploy to Azure App Services**:
-   - Configure Azure App Service to use the container image from ACR
-   - Set up continuous deployment (CD) for automatic updates
-   - Configure environment variables in Azure App Service settings
-   - Use Azure Portal or Azure CLI to deploy and manage the application
+```bash
+az acr build \
+  --registry <your-registry-name> \
+  --image streamlit-app:$(git rev-parse HEAD) \
+  --file Dockerfile \
+  .
+```
 
 ### Azure App Services Benefits
 
