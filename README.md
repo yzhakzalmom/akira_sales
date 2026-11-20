@@ -75,35 +75,54 @@ By using Parquet, the pipeline achieves better performance, lower storage costs,
 ## Project Structure
 
 ```
-akira_sales/                         # Root project folder
-.
-├── README.md                       # Project overview and documentation
-├── _archive                        # Deprecated/old code and experiments
-├── azure_functions                 # Azure Functions backend service
-│   ├── .env.example                # Example environment variables
-│   ├── .funcignore                 # Files ignored during Azure deploy
-│   ├── .gitignore                  # Git ignore rules
-│   ├── .vscode                     # VS Code workspace settings
-│   ├── function_app.py             # Main Azure Functions entrypoint
-│   ├── host.json                   # Azure Functions configuration
-│   ├── pyproject.toml              # Python project configuration
-│   ├── requirements.txt            # Python dependencies (fallback/legacy)
-│   ├── src                         # Source code for functions
-│   └── uv.lock                     # Locked dependency versions (uv)
-├── pbi                             # Power BI assets
-│   └── mock                        # Mock data for reports/testing
-└── streamlit                       # Streamlit frontend application
-    ├── .dockerignore               # Docker ignore rules
-    ├── .env.example               # Example environment variables
-    ├── .gitignore                 # Git ignore rules
-    ├── Dockerfile                 # Container definition for app
-    ├── README.md                  # Streamlit app documentation
-    ├── app                        # Streamlit UI pages/components
-    ├── docker-compose.yml         # Multi-container orchestration
-    ├── pyproject.toml             # Python project configuration
-    ├── src                        # Core application/business logic
-    ├── test                       # Unit and integration tests
-    └── uv.lock                    # Locked dependency versions (uv)
+akira_sales/
+├── README.md
+├── _archive/                       # Deprecated code and experiments
+│   ├── dbc/
+│   ├── etl/
+│   ├── functions/
+│   ├── old_etl/
+│   ├── st_web/
+│   ├── test_etl/
+│   └── unfinished/
+├── azure_functions/                # Azure Functions backend
+│   ├── .env.example
+│   ├── .funcignore
+│   ├── .gitignore
+│   ├── function_app.py             # Functions entrypoint
+│   ├── host.json
+│   ├── pyproject.toml
+│   ├── requirements.txt
+│   ├── uv.lock
+│   └── src/
+│       ├── etl/                    # month_closing
+│       ├── functions/              # DataFrame helpers
+│       ├── services/               # ADLS, read, save, treat, check
+│       └── utils/
+├── pbi/
+│   ├── dashboards/                 # Power BI report
+│   └── mock/                       # Synthetic inputs and outputs
+└── streamlit/                      # Streamlit frontend
+    ├── .dockerignore
+    ├── .env.example
+    ├── .gitignore
+    ├── Dockerfile
+    ├── docker-compose.yml
+    ├── pyproject.toml
+    ├── README.md
+    ├── uv.lock
+    ├── app/
+    │   ├── Home.py                 # Login gate and navigation
+    │   ├── assets/                 # Icons and page texts
+    │   ├── components/
+    │   └── views/                  # uploads, opcoes, execucao
+    ├── scripts/
+    │   ├── render_secrets.py       # Builds .streamlit/secrets.toml
+    │   └── run.sh                  # Starts the app
+    ├── src/
+    │   ├── services/
+    │   └── utils/
+    └── test/
 ```
 
 ## Installation
@@ -128,7 +147,7 @@ akira_sales/                         # Root project folder
 
 4. **Run the application**:
    ```bash
-   uv run streamlit run app/Uploads.py
+   ./scripts/run.sh
    ```
 
 5. **Access the application**:
@@ -147,9 +166,9 @@ docker compose up -d --build
 This will:
 - Build the Docker image
 - Start the container
-- Expose the application on port `8081` (mapped to container port 8501)
+- Expose the application on port `8501` (mapped to container port 8501)
 
-Access the application at: [http://localhost:8081]
+Access the application at: [http://localhost:8501]
 
 ### Build Docker Image Manually
 
@@ -160,7 +179,7 @@ docker build -t streamlit-app:v1 .
 ### Run Docker Container
 
 ```bash
-docker run -p 8081:8501 streamlit-app:v1
+docker run -p 8501:8501 streamlit-app:v1
 ```
 
 ## Azure Resources
@@ -292,7 +311,7 @@ The application required environment variables are described in `.env.example`
 
 If port 8501 is already in use, you can change the port in the Streamlit command:
 ```bash
-uv run streamlit run app/Home.py --server.port 8502
+./scripts/run.sh --server.port 8502
 ```
 
 Or modify the port mapping in `docker-compose.yml`:
@@ -321,7 +340,7 @@ If you're having trouble connecting to Azure ADLS:
 
 1. Create a feature branch
 2. Make your changes
-3. Test locally using `uv run streamlit run app/Home.py`
+3. Test locally using `./scripts/run.sh`
 4. Submit a pull request
 
 ## Support

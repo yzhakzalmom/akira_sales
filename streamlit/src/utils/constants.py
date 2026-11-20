@@ -107,6 +107,7 @@ BLACK_LOGO_FILE_NAME = 'black_logo.png'
 
 # UPLOADS
 MAIN_PAGE_TITLE = 'Akira ~ Uploads'
+LOGIN_PAGE_TITLE = 'Akira ~ Login'
 MAIN_PAGE_LAYOUT = 'wide'
 MAIN_PAGE_HEADER = 'Uploads de Arquivos'
 MAIN_PAGE_COLUMN_LAYOUT = [1, 4, 1]
@@ -187,6 +188,18 @@ MSG_YEAR_PARAM_NOT_FOUND = 'Parâmetro de Ano ausente'
 MSG_SUCCESSFUL_MONTH_CLOSING = 'Fechamento de mês bem sucedido!'
 MSG_FILL_TAXES = 'Preencha o imposto em cada mês'
 MSG_FILL_PRODUCTS = 'Preencha o nome, a sigla e a palavra-chave de cada produto'
+LOGIN_HEADER = 'Entrar'
+LOGIN_BUTTON = 'Entrar com a Microsoft'
+LOGIN_HELP = (
+    'O acesso usa a conta Microsoft da empresa. '
+    'Ao continuar, você vai para a página de login da Microsoft '
+    'e retorna aqui depois de autenticar.'
+)
+LOGOUT_BUTTON = 'Sair'
+MSG_AUTH_TENANTS_MISSING = (
+    'A lista de tenants permitidos não está configurada. '
+    'Defina ENTRA_ALLOWED_TENANT_IDS.'
+)
 
 # Message template for file replacement
 MSG_FILE_EXISTS_TEMPLATE = (
